@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel ORCA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; }
+    header { background: #000; color: #FFD700; padding: 20px; text-align: center; font-size: 24px; }
+    .menu { display: flex; flex-wrap: wrap; justify-content: center; margin: 30px 0; }
+    .card {
+      background: #fff; margin: 15px; padding: 25px; width: 200px; height: 140px;
+      text-align: center; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .card:hover { transform: scale(1.05); background: #ffd70044; }
+    a { text-decoration: none; color: #000; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<header>
+  Bem-vindo, {{ user.nome }} ao sistema ORCA!
+</header>
+
+<div class="menu">
+  {% if user.tipo == 'editor' or user.tipo == 'rh' %}
+    <div class="card"><a href="{{ url_for('painel_rh') }}">👥 Funcionários</a></div>
+    <div class="card"><a href="{{ url_for('painel_rh') }}#holerites">💵 Holerites</a></div>
+  {% endif %}
+
+  {% if user.tipo == 'editor' or user.tipo == 'fiscal' %}
+    <div class="card"><a href="{{ url_for('gastos', obra_id=1) }}">📄 Gastos</a></div>
+    <div class="card"><a href="{{ url_for('graficos') }}">📊 Gráficos</a></div>
+  {% endif %}
+
+  {% if user.tipo == 'editor' or user.tipo == 'seguranca' %}
+    <div class="card"><a href="#">🦺 EPIs</a></div> <!-- você pode apontar para a rota correta -->
+  {% endif %}
+
+  {% if user.tipo == 'editor' %}
+    <div class="card"><a href="{{ url_for('users') }}">🔐 Usuários</a></div>
+  {% endif %}
+
+  <div class="card"><a href="{{ url_for('mensagens') }}">💬 Mensagens</a></div>
+  <div class="card"><a href="{{ url_for('logout') }}">🚪 Sair</a></div>
+</div>
+
+</body>
+</html>
