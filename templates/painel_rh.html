@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Painel RH | ORCA{% endblock %}
+
+{% block content %}
+<h2>👩‍💼 Painel do RH</h2>
+
+<div class="botoes-rh">
+  <a href="{{ url_for('cadastro_funcionarios') }}">👥 Cadastrar Funcionário</a>
+  <a href="{{ url_for('holerite') }}">📄 Folha de Pagamento</a>
+</div>
+
+<style>
+  .botoes-rh {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+  }
+  .botoes-rh a {
+    background-color: #FFD700;
+    color: #000;
+    padding: 14px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    transition: 0.2s;
+  }
+  .botoes-rh a:hover {
+    background-color: #ffcd00;
+    transform: scale(1.05);
+  }
+</style>
+{% endblock %}
