@@ -1,69 +1,93 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Controle de Gastos | ORCA{% endblock %}
+
 {% block content %}
-  <h1>Gastos de {{ obra.nome }}</h1>
+<h2>💰 Controle de Gastos da Obra</h2>
 
-  <form action="{{ url_for('add_gasto', obra_id=obra.id) }}" method="post">
-    <label for="tipo_nota">Tipo de Nota:</label>
-    <select name="tipo_nota" id="tipo_nota" required>
-      <option value="">Selecione...</option>
-      <option>Alimentação</option>
-      <option>Aluguel de imoveis</option>
-      <option>Locação de carro</option>
-      <option>VR</option>
-      <option>Gás de solda</option>
-      <option>Salário mensal</option>
-      <option>Locação de andaimes</option>
-      <option>Locação de PTAs</option>
-      <option>Locações de equipamentos</option>
-      <option>Transporte de colaborador</option>
-    </select>
+<a href="{{ url_for('adicionar_gasto') }}" class="btn-adicionar">➕ Adicionar Gasto</a>
 
-    <label for="valor">Valor:</label>
-    <input name="valor" id="valor" placeholder="R$ 0,00" required>
+<table>
+  <thead>
+    <tr>
+      <th>Tipo de Nota</th>
+      <th>Valor</th>
+      <th>Data</th>
+      <th>Descrição</th>
+      <th>Obra</th>
+      <th>Aprovado por</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for gasto in gastos %}
+    <tr>
+      <td>{{ gasto.tipo_nota }}</td>
+      <td>R$ {{ '%.2f'|format(gasto.valor) }}</td>
+      <td>{{ gasto.data.strftime('%d/%m/%Y') }}</td>
+      <td>{{ gasto.descricao }}</td>
+      <td>{{ gasto.obra.nome }}</td>
+      <td>{{ gasto.aprovado_por }}</td>
+      <td>
+        <a href="{{ url_for('editar_gasto', id=gasto.id) }}">✏️ Editar</a> |
+        <a href="{{ url_for('excluir_gasto', id=gasto.id) }}" onclick="return confirm('Tem certeza que deseja excluir?')">🗑️ Excluir</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-    <label for="data_nota">Data:</label>
-    <input name="data_nota" id="data_nota" type="date" required>
+<style>
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
 
-    <label for="aprovador">Quem aprovou:</label>
-    <input name="aprovador" id="aprovador" placeholder="Quem aprovou" required>
+  .btn-adicionar {
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #FFD700;
+    color: #000;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
 
-    <label for="descricao">Descrição:</label>
-    <textarea name="descricao" id="descricao" placeholder="Descrição (opcional)"></textarea>
+  .btn-adicionar:hover {
+    background-color: #e6c200;
+  }
 
-    <button type="submit">Adicionar Gasto</button>
-  </form>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+  }
 
-  <!-- Export buttons for Excel and PDF -->
-  <div class="export-buttons" style="margin: 15px 0;">
-    <a href="{{ url_for('export_excel', obra_id=obra.id) }}" class="button">Exportar Excel</a>
-    <a href="{{ url_for('export_pdf', obra_id=obra.id) }}" class="button">Exportar PDF</a>
-  </div>
+  th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
 
-  <table>
-    <thead>
-      <tr>
-        <th>Data</th>
-        <th>Tipo</th>
-        <th>Valor</th>
-        <th>Aprovador</th>
-        <th>Descrição</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for g in obra.gastos %}
-        <tr>
-          <td>{{ g.data_nota }}</td>
-          <td>{{ g.tipo_nota }}</td>
-          <td>R$ {{ "%.2f"|format(g.valor) }}</td>
-          <td>{{ g.aprovador }}</td>
-          <td>{{ g.descricao or '' }}</td>
-        <td>
-          <form action="{{ url_for('delete_gasto', obra_id=obra.id, gasto_id=g.id) }}" method="post" style="display:inline;">
-            <button class="button" onclick="return confirm('Confirma exclusão deste gasto?');">Excluir</button>
-          </form>
-        </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  th {
+    background-color: #000;
+    color: #FFD700;
+  }
+
+  tr:hover {
+    background-color: #f2f2f2;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
 {% endblock %}

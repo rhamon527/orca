@@ -1,42 +1,66 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Usuários Cadastrados | ORCA{% endblock %}
+
 {% block content %}
-  <h1>Gerenciar Usuários</h1>
-  <form action="" method="post">
-    <input name="nome" placeholder="Nome" required>
-    <input name="email" type="email" placeholder="E-mail" required>
-    <input name="senha" type="password" placeholder="Senha" required>
-    <select name="tipo" required>
-      <option value="visualizador">Visualizador</option>
-      <option value="editor">Editor</option>
-    </select>
-    <button type="submit">Criar Usuário</button>
-  </form>
-  <h2>Lista de Usuários</h2>
+<h2>👥 Usuários Cadastrados</h2>
+
+<div class="tabela-usuarios">
   <table>
-    <tr><th>ID</th><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Status</th><th>Ações</th></tr>
-    {% for user in users %}
-    <tr>
-    <tr>
-      <td>{{ user.id }}</td>
-      <td>{{ user.nome }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.tipo }}</td>
-      <td>{{ 'Ativo' if user.active else 'Bloqueado' }}</td>
-      <td>
-        {% if user.active %}
-        <form action="{{ url_for('block_user', user_id=user.id) }}" method="post" style="display:inline;">
-          <button class="button" onclick="return confirm('Bloquear este usuário?');">Bloquear</button>
-        </form>
-        {% else %}
-        <form action="{{ url_for('unblock_user', user_id=user.id) }}" method="post" style="display:inline;">
-          <button class="button">Desbloquear</button>
-        </form>
-        {% endif %}
-        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display:inline;">
-          <button class="button" onclick="return confirm('Excluir este usuário?');">Excluir</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuário</th>
+        <th>Departamento</th>
+        <th>Criado em</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.departamento }}</td>
+          <td>{{ user.created_at.strftime('%d/%m/%Y %H:%M') if user.created_at else '-' }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
   </table>
+</div>
+
+<style>
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .tabela-usuarios {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  table thead {
+    background-color: #FFD700;
+  }
+
+  table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+
+  table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>
 {% endblock %}

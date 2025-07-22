@@ -1,9 +1,126 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Mensagens Internas | ORCA{% endblock %}
+
 {% block content %}
-  <h1>Mensagens</h1>
-  <div id="chat">
-    <ul id="msgs"></ul>
-    <input id="input-msg" placeholder="Digite sua mensagem…">
+<h2>💬 Mensagens Internas</h2>
+
+<div class="mensagem-container">
+
+  <div class="usuarios-online">
+    <h3>🟢 Usuários Online</h3>
+    <ul>
+      {% for user in usuarios %}
+        <li>{{ user }}</li>
+      {% endfor %}
+    </ul>
   </div>
-  <script src="{{ url_for('static', filename='js/socket.js') }}"></script>
+
+  <div class="chat-box">
+    <div class="mensagens" id="mensagens">
+      {% for msg in mensagens %}
+        <div class="mensagem">
+          <strong>{{ msg.remetente }}:</strong> {{ msg.conteudo }}
+          <span class="data">{{ msg.data.strftime('%d/%m/%Y %H:%M') }}</span>
+        </div>
+      {% endfor %}
+    </div>
+
+    <form method="POST" class="form-mensagem">
+      <input type="text" name="mensagem" placeholder="Digite sua mensagem..." required>
+      <button type="submit">📨 Enviar</button>
+    </form>
+  </div>
+
+</div>
+
+<style>
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .mensagem-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .usuarios-online {
+    width: 250px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .usuarios-online ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .usuarios-online li {
+    margin-bottom: 10px;
+    padding: 6px;
+    background-color: #f3f3f3;
+    border-radius: 4px;
+  }
+
+  .chat-box {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 300px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .mensagens {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+
+  .mensagem {
+    margin-bottom: 10px;
+  }
+
+  .mensagem strong {
+    color: #000;
+  }
+
+  .mensagem .data {
+    display: block;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .form-mensagem {
+    display: flex;
+    gap: 10px;
+  }
+
+  .form-mensagem input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .form-mensagem button {
+    padding: 10px 16px;
+    background-color: #FFD700;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .form-mensagem button:hover {
+    background-color: #e6c200;
+  }
+</style>
 {% endblock %}

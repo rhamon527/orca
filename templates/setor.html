@@ -2,14 +2,141 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Escolher Setor</title>
+  <title>Seleção de Setor | ORCA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #000;
+      color: #FFD700;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .setor-opcoes {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+    }
+
+    .setor-card {
+      background-color: #FFD700;
+      color: #000;
+      padding: 25px;
+      border-radius: 10px;
+      width: 130px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .setor-card:hover {
+      transform: scale(1.05);
+      background-color: #e6c200;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    button {
+      background-color: #000;
+      color: #FFD700;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #222;
+    }
+
+    input[type="hidden"] {
+      display: none;
+    }
+  </style>
+
+  <script>
+    function selecionarSetor(valor) {
+      document.getElementById('setor_input').value = valor;
+      document.getElementById('form_setor').submit();
+    }
+  </script>
 </head>
 <body>
-  <h2>Olá, {{ user.nome }}. Escolha o setor:</h2>
-  <form method="POST">
-    <button type="submit" name="setor" value="rh">👥 RH</button>
-    <button type="submit" name="setor" value="fiscal">📄 Fiscal</button>
-    <button type="submit" name="setor" value="seguranca">🦺 Segurança</button>
+
+<header>
+  🏭 Selecione seu Setor e Obra
+</header>
+
+<div class="container">
+  <h2>Escolha seu setor</h2>
+
+  <form method="POST" id="form_setor">
+    {{ form.csrf_token }}
+    <div class="setor-opcoes">
+      <div class="setor-card" onclick="selecionarSetor('RH')">👤 RH</div>
+      <div class="setor-card" onclick="selecionarSetor('Fiscal')">📄 Fiscal</div>
+      <div class="setor-card" onclick="selecionarSetor('Segurança')">🦺 Segurança</div>
+    </div>
+
+    <label for="obra">Selecione a obra:</label>
+    <select name="obra" id="obra" required>
+      <option value="">-- Escolha uma obra --</option>
+      {% for obra in obras %}
+        <option value="{{ obra.id }}">{{ obra.nome }}</option>
+      {% endfor %}
+    </select>
+
+    <input type="hidden" name="setor" id="setor_input">
+    <button type="submit">Entrar no Painel</button>
   </form>
+</div>
+
 </body>
 </html>

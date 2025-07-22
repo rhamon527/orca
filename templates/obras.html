@@ -1,16 +1,112 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Obras | ORCA{% endblock %}
+
 {% block content %}
-  <h1>Obras</h1>
-  <form action="{{ url_for('add_obra') }}" method="post">
-    <input name="nome" placeholder="Nome da obra" required>
-    <button type="submit">Adicionar</button>
+<h2>🏗️ Cadastro de Obras</h2>
+
+<div class="form-container">
+  <form method="POST">
+    <input type="text" name="nome" placeholder="Nome da Obra" required>
+    <input type="text" name="cidade" placeholder="Cidade" required>
+    <input type="text" name="estado" placeholder="Estado (UF)" required>
+    <input type="text" name="responsavel" placeholder="Responsável pela Obra" required>
+    <input type="text" name="usina" placeholder="Nome da Usina (se aplicável)">
+    <button type="submit">Salvar Obra</button>
   </form>
-  <ul>
-    {% for o in obras %}
-      <li>
-        {{ o.nome }} —
-        <a href="{{ url_for('gastos', obra_id=o.id) }}">Ver Gastos</a>
-      </li>
-    {% endfor %}
-  </ul>
+</div>
+
+{% if obras %}
+  <div class="tabela-container">
+    <h3>Obras Cadastradas</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>Responsável</th>
+          <th>Usina</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for obra in obras %}
+          <tr>
+            <td>{{ obra.nome }}</td>
+            <td>{{ obra.cidade }}</td>
+            <td>{{ obra.estado }}</td>
+            <td>{{ obra.responsavel }}</td>
+            <td>{{ obra.usina or "-" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+
+<style>
+  h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+
+  form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #FFD700;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  form button:hover {
+    background-color: #e6c200;
+  }
+
+  .tabela-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  table th, table td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  table th {
+    background-color: #f9f9f9;
+  }
+</style>
 {% endblock %}

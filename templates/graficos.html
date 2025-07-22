@@ -1,41 +1,77 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Gráficos de Gastos | ORCA{% endblock %}
+
 {% block content %}
-  <h1>Gráficos por Categoria</h1>
-  <div class="chart-container">
-  <canvas id="chart"></canvas>
-</div>
-  <script>
-    fetch('{{ url_for("api_gastos_tipos") }}')
-      .then(res => res.json())
-      .then(json => {
-        const ctx = document.getElementById('chart').getContext('2d');
-        if (!json.data || json.data.length === 0 || json.data.every(v => v === 0)) {
-          document.getElementById('chart').replaceWith(document.createTextNode('Sem dados para exibir.'));
-          return;
-        }
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: json.labels,
-            datasets: [{
-              label: 'Total por Categoria',
-              data: json.data
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                labels: { font: { size: 14, family: 'Arial' } }
-              }
-            },
-            scales: {
-              x: { ticks: { font: { size: 14, family: 'Arial' } } },
-              y: { ticks: { font: { size: 14, family: 'Arial' } } }
+<h2>📊 Gráficos de Gastos</h2>
+
+<canvas id="graficoGastos" width="400" height="200"></canvas>
+
+<style>
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  canvas {
+    display: block;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+</style>
+
+<!-- Importa Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('graficoGastos').getContext('2d');
+  const graficoGastos = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ labels|tojson }},
+      datasets: [{
+        label: 'Valor (R$)',
+        data: {{ valores|tojson }},
+        backgroundColor: '#FFD700',
+        borderColor: '#000',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return 'R$ ' + context.formattedValue;
             }
-         }
-        });
-      });
-  </script>
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Valor em R$'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Tipo de Gasto ou Obra'
+          }
+        }
+      }
+    }
+  });
+</script>
 {% endblock %}
