@@ -85,6 +85,7 @@ def add_obra():
         db.session.add(Obra(nome=nome))
         db.session.commit()
     return redirect(url_for('obras'))
+    
 @app.route('/setor', methods=['GET', 'POST'])
 @login_required
 def setor():
@@ -96,7 +97,10 @@ def setor():
             return redirect(url_for('painel_fiscal'))
         elif setor_escolhido == 'seguranca':
             return redirect(url_for('painel_seguranca'))
-    return render_template('setor.html', user=current_user)
+
+    # 👇 ESSA PARTE AQUI É O QUE FALTAVA
+    obras = Obra.query.all()
+    return render_template('setor.html', obras=obras, user=current_user)
 
 @app.route('/painel/rh')
 @login_required
