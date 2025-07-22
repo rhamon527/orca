@@ -90,6 +90,23 @@ def add_obra():
         db.session.add(Obra(nome=nome))
         db.session.commit()
     return redirect(url_for('obras'))
+@app.route('/setor', methods=['GET', 'POST'])
+@login_required
+def setor():
+    if request.method == 'POST':
+        setor_escolhido = request.form['setor']
+        if setor_escolhido == 'rh':
+            return redirect(url_for('painel_rh'))
+        elif setor_escolhido == 'fiscal':
+            return redirect(url_for('painel_fiscal'))
+        elif setor_escolhido == 'seguranca':
+            return redirect(url_for('painel_seguranca'))
+    return render_template('setor.html', user=current_user)
+
+@app.route('/painel/rh')
+@login_required
+def painel_rh():
+    return render_template('painel_rh.html', user=current_user)
 
 @app.route('/gastos/<int:obra_id>')
 @login_required
