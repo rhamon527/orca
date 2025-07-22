@@ -280,47 +280,6 @@ if __name__ == '__main__':
 
 
 
-
-
-@app.route('/export/excel/<int:obra_id>')
-@login_required
-def export_excel(obra_id):
-    obra = Obra.query.get_or_404(obra_id)
-    df = pd.DataFrame([{
-        'Data': g.data_nota,
-        'Tipo': g.tipo_nota,
-        'Valor': g.valor,
-        'Aprovador': g.aprovador,
-        'Descrição': g.descricao
-    } for g in obra.gastos])
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df.to_excel(writer, index=False, sheet_name='Gastos')
-    output.seek(0)
-    return send_file(output, download_name=f'gastos_obra_{obra_id}.xlsx', as_attachment=True)
-
-@app.route('/export/pdf/<int:obra_id>')
-@login_required
-def export_pdf(obra_id):
-    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-    from reportlab.lib import colors
-    obra = Obra.query.get_or_404(obra_id)
-    data = [['Data', 'Tipo', 'Valor', 'Aprovador', 'Descrição']] + [
-        [str(g.data_nota), g.tipo_nota, f"R$ {g.valor:.2f}", g.aprovador, g.descricao or '']
-        for g in obra.gastos
-    ]
-    buffer = io.BytesIO()
-    doc = SimpleDocTemplate(buffer)
-    table = Table(data)
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.grey),
-        ('GRID', (0,0), (-1,-1), 1, colors.black),
-    ]))
-    doc.build([table])
-    buffer.seek(0)
-    return send_file(buffer, download_name=f'gastos_obra_{obra_id}.pdf', as_attachment=True, mimetype='application/pdf')
-
-
 @app.route('/users', methods=['GET', 'POST'])
 @login_required
 def users():
