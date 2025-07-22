@@ -137,7 +137,7 @@ def add_funcionario():
         db.session.add(funcionario)
         db.session.commit()
         flash('Funcionário cadastrado com sucesso.')
-    return redirect(url_for('painel_rh'))
+    return redirect(url_for('painel_geral'))
 
 @app.route('/holerites/add', methods=['POST'])
 @login_required
