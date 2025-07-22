@@ -207,15 +207,6 @@ def block_user(user_id):
     flash(f'Usuário {user.nome} bloqueado.')
     return redirect(url_for('users'))
 
-@app.route('/users/unblock/<int:user_id>', methods=['POST'])
-@login_required
-def unblock_user(user_id):
-    if current_user.tipo != 'editor': return redirect(url_for('obras'))
-    user = User.query.get_or_404(user_id)
-    user.active = True
-    db.session.commit()
-    flash(f'Usuário {user.nome} desbloqueado.')
-    return redirect(url_for('users'))
 
 @app.route('/users/delete/<int:user_id>', methods=['POST'])
 @login_required
