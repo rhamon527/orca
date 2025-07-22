@@ -208,16 +208,6 @@ def block_user(user_id):
     return redirect(url_for('users'))
 
 
-@app.route('/users/delete/<int:user_id>', methods=['POST'])
-@login_required
-def delete_user(user_id):
-    if current_user.tipo != 'editor': return redirect(url_for('obras'))
-    user = User.query.get_or_404(user_id)
-    db.session.delete(user)
-    db.session.commit()
-    flash(f'Usuário {user.nome} excluído.')
-    return redirect(url_for('users'))
-
 
 
 @app.route('/api/gastos_tipos')
