@@ -46,7 +46,7 @@ def login():
         user = User.query.filter_by(email=request.form['email']).first()
         if user and check_password_hash(user.senha, request.form['senha']):
             login_user(user)
-            return redirect(url_for('setor'))
+            return redirect(url_for('painel_rh'))
         flash('Login inválido.')
     return render_template('login.html')
 @app.route('/register', methods=['GET', 'POST'])
