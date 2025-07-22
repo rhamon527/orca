@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Mensagens</h1>
+  <div id="chat">
+    <ul id="msgs"></ul>
+    <input id="input-msg" placeholder="Digite sua mensagem…">
+  </div>
+  <script src="{{ url_for('static', filename='js/socket.js') }}"></script>
+{% endblock %}

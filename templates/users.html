@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Gerenciar Usuários</h1>
+  <form action="" method="post">
+    <input name="nome" placeholder="Nome" required>
+    <input name="email" type="email" placeholder="E-mail" required>
+    <input name="senha" type="password" placeholder="Senha" required>
+    <select name="tipo" required>
+      <option value="visualizador">Visualizador</option>
+      <option value="editor">Editor</option>
+    </select>
+    <button type="submit">Criar Usuário</button>
+  </form>
+  <h2>Lista de Usuários</h2>
+  <table>
+    <tr><th>ID</th><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Status</th><th>Ações</th></tr>
+    {% for user in users %}
+    <tr>
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.nome }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.tipo }}</td>
+      <td>{{ 'Ativo' if user.active else 'Bloqueado' }}</td>
+      <td>
+        {% if user.active %}
+        <form action="{{ url_for('block_user', user_id=user.id) }}" method="post" style="display:inline;">
+          <button class="button" onclick="return confirm('Bloquear este usuário?');">Bloquear</button>
+        </form>
+        {% else %}
+        <form action="{{ url_for('unblock_user', user_id=user.id) }}" method="post" style="display:inline;">
+          <button class="button">Desbloquear</button>
+        </form>
+        {% endif %}
+        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display:inline;">
+          <button class="button" onclick="return confirm('Excluir este usuário?');">Excluir</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

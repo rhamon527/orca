@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Gráficos por Categoria</h1>
+  <div class="chart-container">
+  <canvas id="chart"></canvas>
+</div>
+  <script>
+    fetch('{{ url_for("api_gastos_tipos") }}')
+      .then(res => res.json())
+      .then(json => {
+        const ctx = document.getElementById('chart').getContext('2d');
+        if (!json.data || json.data.length === 0 || json.data.every(v => v === 0)) {
+          document.getElementById('chart').replaceWith(document.createTextNode('Sem dados para exibir.'));
+          return;
+        }
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: json.labels,
+            datasets: [{
+              label: 'Total por Categoria',
+              data: json.data
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: { font: { size: 14, family: 'Arial' } }
+              }
+            },
+            scales: {
+              x: { ticks: { font: { size: 14, family: 'Arial' } } },
+              y: { ticks: { font: { size: 14, family: 'Arial' } } }
+            }
+         }
+        });
+      });
+  </script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Obras</h1>
+  <form action="{{ url_for('add_obra') }}" method="post">
+    <input name="nome" placeholder="Nome da obra" required>
+    <button type="submit">Adicionar</button>
+  </form>
+  <ul>
+    {% for o in obras %}
+      <li>
+        {{ o.nome }} —
+        <a href="{{ url_for('gastos', obra_id=o.id) }}">Ver Gastos</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

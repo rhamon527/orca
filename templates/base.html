@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ORCA Gastos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+</head>
+
+<body>
+<div class="logout-top-right">
+    <a href="{{ url_for('logout') }}">🚪 Sair</a>
+</div>
+
+  <video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='video/engrenagens_4k.mp4') }}" type="video/mp4">
+  </video>
+
+  <!-- Background YouTube video -->
+  
+
+  
+  
+  <!-- Background YouTube video -->
+  
+
+  <div class="sidebar">
+  <div class="logo">
+    <img src="{{ url_for('static', filename='img/orca_logo.png') }}" alt="ORCA Logo" class="logo-img">
+  </div>
+    <a href="{{ url_for('obras') }}">🏗️ Obras</a>
+    <a href="{{ url_for('obras') }}">💸 Gastos</a>
+    <a href="{{ url_for('graficos') }}">📊 Gráficos</a>
+    <a href="{{ url_for('mensagens') }}">💬 Mensagens</a>
+    {% if current_user.tipo == 'editor' %}
+    <a href="{{ url_for('users') }}">🧑‍💼 Usuários</a>
+    {% endif %}
+
+    <a href="{{ url_for('logout') }}">🚪 Sair</a>
+  </div>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <!-- Chat widget -->
+  <div id="chat-widget">
+    <div id="chat-bubble">💬 <span id="online-count">0</span></div>
+    <div id="chat-panel" class="hidden">
+      <ul id="widget-msgs"></ul>
+      <input id="widget-input" placeholder="Digite sua mensagem…" />
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/chat_widget.js') }}"></script>
+  
+</body>
+</html>

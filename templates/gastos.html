@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Gastos de {{ obra.nome }}</h1>
+
+  <form action="{{ url_for('add_gasto', obra_id=obra.id) }}" method="post">
+    <label for="tipo_nota">Tipo de Nota:</label>
+    <select name="tipo_nota" id="tipo_nota" required>
+      <option value="">Selecione...</option>
+      <option>Alimentação</option>
+      <option>Aluguel de imoveis</option>
+      <option>Locação de carro</option>
+      <option>VR</option>
+      <option>Gás de solda</option>
+      <option>Salário mensal</option>
+      <option>Locação de andaimes</option>
+      <option>Locação de PTAs</option>
+      <option>Locações de equipamentos</option>
+      <option>Transporte de colaborador</option>
+    </select>
+
+    <label for="valor">Valor:</label>
+    <input name="valor" id="valor" placeholder="R$ 0,00" required>
+
+    <label for="data_nota">Data:</label>
+    <input name="data_nota" id="data_nota" type="date" required>
+
+    <label for="aprovador">Quem aprovou:</label>
+    <input name="aprovador" id="aprovador" placeholder="Quem aprovou" required>
+
+    <label for="descricao">Descrição:</label>
+    <textarea name="descricao" id="descricao" placeholder="Descrição (opcional)"></textarea>
+
+    <button type="submit">Adicionar Gasto</button>
+  </form>
+
+  <!-- Export buttons for Excel and PDF -->
+  <div class="export-buttons" style="margin: 15px 0;">
+    <a href="{{ url_for('export_excel', obra_id=obra.id) }}" class="button">Exportar Excel</a>
+    <a href="{{ url_for('export_pdf', obra_id=obra.id) }}" class="button">Exportar PDF</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+        <th>Aprovador</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for g in obra.gastos %}
+        <tr>
+          <td>{{ g.data_nota }}</td>
+          <td>{{ g.tipo_nota }}</td>
+          <td>R$ {{ "%.2f"|format(g.valor) }}</td>
+          <td>{{ g.aprovador }}</td>
+          <td>{{ g.descricao or '' }}</td>
+        <td>
+          <form action="{{ url_for('delete_gasto', obra_id=obra.id, gasto_id=g.id) }}" method="post" style="display:inline;">
+            <button class="button" onclick="return confirm('Confirma exclusão deste gasto?');">Excluir</button>
+          </form>
+        </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
