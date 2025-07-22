@@ -210,29 +210,6 @@ def block_user(user_id):
 
 
 
-@app.route('/api/gastos_tipos')
-@login_required
-def api_gastos_tipos():
-    # Totais por categoria de gasto
-    categorias = [
-        "Alimentação",
-        "Aluguel de imoveis",
-        "Locação de carro",
-        "VR",
-        "Gás de solda",
-        "Salário mensal",
-        "Locação de andaimes",
-        "Locação de PTAs",
-        "Locações de equipamentos",
-        "Transporte de colaborador"
-    ]
-    labels = []
-    data = []
-    for cat in categorias:
-        total = db.session.query(db.func.sum(Gasto.valor)).filter(Gasto.tipo_nota == cat).scalar() or 0
-        labels.append(cat)
-        data.append(total)
-    return jsonify(labels=labels, data=data)
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
