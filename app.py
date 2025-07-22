@@ -197,28 +197,6 @@ def export_pdf(obra_id):
     return send_file(buffer, download_name=f'gastos_obra_{obra_id}.pdf', as_attachment=True, mimetype='application/pdf')
 
 
-@app.route('/users', methods=['GET', 'POST'])
-@login_required
-def users():
-    # Apenas editores podem gerenciar usuários
-    if current_user.tipo != 'editor':
-        flash('Acesso negado.')
-        return redirect(url_for('obras'))
-    if request.method == 'POST':
-        nome = request.form['nome']
-        email = request.form['email']
-        senha = generate_password_hash(request.form['senha'])
-        tipo = request.form['tipo']
-        if User.query.filter_by(email=email).first():
-            flash('E-mail já cadastrado.')
-        else:
-            user = User(nome=nome, email=email, senha=senha, tipo=tipo)
-            db.session.add(user)
-            db.session.commit()
-            flash('Usuário criado com sucesso.')
-    users_list = User.query.all()
-    return render_template('users.html', users=users_list)
-
 @app.route('/users/block/<int:user_id>', methods=['POST'])
 @login_required
 def block_user(user_id):
