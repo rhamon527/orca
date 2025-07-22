@@ -19,8 +19,8 @@
       {% for user in users %}
         <tr>
           <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.departamento }}</td>
+          <td>{{ user.nome }}</td>
+          <td>{{ user.tipo }}</td>
           <td>{{ user.created_at.strftime('%d/%m/%Y %H:%M') if user.created_at else '-' }}</td>
         </tr>
       {% endfor %}
