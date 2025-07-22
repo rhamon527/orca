@@ -1,10 +1,10 @@
 Flask
-Flask-SQLAlchemy
-Flask-Login
-Flask-SocketIO
+gunicorn
+flask_sqlalchemy
+flask_login
+flask_socketio
 eventlet
-python-dotenv
 pandas
 xlsxwriter
 reportlab
-gunicorn
+
