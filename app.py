@@ -98,9 +98,8 @@ def setor():
         elif setor_escolhido == 'seguranca':
             return redirect(url_for('painel_seguranca'))
 
-    # 👇 ESSA PARTE AQUI É O QUE FALTAVA
     obras = Obra.query.all()
-    return render_template('setor.html', obras=obras, user=current_user)
+    return render_template('setor.html', obras=obras)
 
 @app.route('/painel/rh')
 @login_required
