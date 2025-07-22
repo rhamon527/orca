@@ -77,10 +77,8 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/')
-@login_required
-def obras():
-    obras = Obra.query.all()
-    return render_template('obras.html', obras=obras)
+def index():
+    return redirect(url_for('login'))
 
 @app.route('/obras/add', methods=['POST'])
 @login_required
