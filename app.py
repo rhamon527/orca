@@ -111,7 +111,7 @@ def setor():
             return redirect(url_for('painel_seguranca', obra_id=obra_id))
         
         flash('Setor inválido.')
-        return redirect(url_for('setor'))
+        return redirect(url_for('painel_geral'))
 
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
