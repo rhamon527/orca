@@ -107,6 +107,51 @@ def setor():
 @login_required
 def painel_rh():
     return render_template('painel_rh.html', user=current_user)
+@app.route('/funcionarios/add', methods=['POST'])
+@login_required
+def add_funcionario():
+    nome = request.form['nome']
+    cpf = request.form['cpf']
+    data_nascimento = request.form['data_nascimento']
+
+    if nome and cpf and data_nascimento:
+        funcionario = Funcionario(
+            nome=nome,
+            cpf=cpf,
+            data_nascimento=datetime.strptime(data_nascimento, '%Y-%m-%d')
+        )
+        db.session.add(funcionario)
+        db.session.commit()
+        flash('Funcionário cadastrado com sucesso.')
+    return redirect(url_for('painel_rh'))
+
+@app.route('/holerites/add', methods=['POST'])
+@login_required
+def add_holerite():
+    funcionario_id = request.form['funcionario_id']
+    data_referencia = request.form['data_referencia']
+    valor_bruto = float(request.form['valor_bruto'])
+    descontos = float(request.form.get('descontos', 0))
+    impostos = float(request.form.get('impostos', 0))
+    horas_50 = float(request.form.get('horas_50', 0))
+    horas_100 = float(request.form.get('horas_100', 0))
+
+    valor_liquido = valor_bruto - descontos - impostos
+
+    holerite = Holerite(
+        funcionario_id=funcionario_id,
+        data_referencia=data_referencia,
+        valor_bruto=valor_bruto,
+        descontos=descontos,
+        impostos=impostos,
+        horas_50=horas_50,
+        horas_100=horas_100,
+        valor_liquido=valor_liquido
+    )
+    db.session.add(holerite)
+    db.session.commit()
+    flash('Holerite cadastrado com sucesso.')
+    return redirect(url_for('painel_rh'))
 
 @app.route('/gastos/<int:obra_id>')
 @login_required
