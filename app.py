@@ -280,15 +280,6 @@ def users():
     users_list = User.query.all()
     return render_template('users.html', users=users_list)
 
-@app.route('/users/block/<int:user_id>', methods=['POST'])
-@login_required
-def block_user(user_id):
-    if current_user.tipo != 'editor': return redirect(url_for('obras'))
-    user = User.query.get_or_404(user_id)
-    user.active = False
-    db.session.commit()
-    flash(f'Usuário {user.nome} bloqueado.')
-    return redirect(url_for('users'))
 
 @app.route('/users/unblock/<int:user_id>', methods=['POST'])
 @login_required
