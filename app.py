@@ -97,18 +97,25 @@ def setor():
             flash('Setor e obra são obrigatórios.')
             return redirect(url_for('setor'))
 
-        if setor_escolhido.lower() == 'rh':
-            return redirect(url_for('painel_rh'))
-        elif setor_escolhido.lower() == 'fiscal':
-            return redirect(url_for('painel_fiscal'))
-        elif setor_escolhido.lower() == 'seguranca':
-            return redirect(url_for('painel_seguranca'))
+        # Salvar o ID da obra escolhida na sessão (opcional para acesso posterior)
+        from flask import session
+        session['obra_id'] = obra_id
 
+        setor_escolhido = setor_escolhido.lower()
+
+        if setor_escolhido == 'rh':
+            return redirect(url_for('painel_rh', obra_id=obra_id))
+        elif setor_escolhido == 'fiscal':
+            return redirect(url_for('painel_fiscal', obra_id=obra_id))
+        elif setor_escolhido == 'seguranca':
+            return redirect(url_for('painel_seguranca', obra_id=obra_id))
+        
         flash('Setor inválido.')
         return redirect(url_for('setor'))
 
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
+
 
 @app.route('/painel/rh')
 @login_required
