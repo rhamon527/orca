@@ -90,13 +90,22 @@ def add_obra():
 @login_required
 def setor():
     if request.method == 'POST':
-        setor_escolhido = request.form['setor']
-        if setor_escolhido == 'rh':
+        setor_escolhido = request.form.get('setor')
+        obra_id = request.form.get('obra')
+
+        if not setor_escolhido or not obra_id:
+            flash('Setor e obra são obrigatórios.')
+            return redirect(url_for('setor'))
+
+        if setor_escolhido.lower() == 'rh':
             return redirect(url_for('painel_rh'))
-        elif setor_escolhido == 'fiscal':
+        elif setor_escolhido.lower() == 'fiscal':
             return redirect(url_for('painel_fiscal'))
-        elif setor_escolhido == 'seguranca':
+        elif setor_escolhido.lower() == 'seguranca':
             return redirect(url_for('painel_seguranca'))
+
+        flash('Setor inválido.')
+        return redirect(url_for('setor'))
 
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
