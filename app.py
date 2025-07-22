@@ -346,6 +346,9 @@ def api_gastos_tipos():
         labels.append(cat)
         data.append(total)
     return jsonify(labels=labels, data=data)
+# Final do app.py
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
