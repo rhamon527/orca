@@ -103,10 +103,6 @@ session['obra_id'] = obra_id
 
 return redirect(url_for('painel_geral'))
 
-    obras = Obra.query.all()
-    return render_template('setor.html', obras=obras)
-
-
 @app.route('/painel/rh')
 @login_required
 def painel_rh():
