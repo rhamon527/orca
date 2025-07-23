@@ -30,13 +30,13 @@ class Gasto(db.Model):
     obra_id = db.Column(db.Integer, db.ForeignKey('obra.id'), nullable=False)
     
 class Funcionario(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(120), nullable=False)
-    cpf = db.Column(db.String(20), nullable=False)
-    data_nascimento = db.Column(db.Date, nullable=False)
-    obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'))
-    holerites = db.relationship('Holerite', backref='funcionario', lazy=True)
+    __tablename__ = 'funcionarios'
 
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(200), nullable=False)
+    cpf = db.Column(db.String(14), nullable=False)
+    data_nascimento = db.Column(db.Date, nullable=False)
+    obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'), nullable=False)
 
 class Holerite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
