@@ -93,9 +93,16 @@ def setor():
         setor_escolhido = request.form.get('setor')
         obra_id = request.form.get('obra')
 
-        if not setor_escolhido or not obra_id:
-            flash('Setor e obra são obrigatórios.')
-            return redirect(url_for('setor'))
+        if not obra_id:
+    flash('Selecione uma obra.')
+    return redirect(url_for('setor'))
+
+# Salva só a obra, ignora o setor
+from flask import session
+session['obra_id'] = obra_id
+
+return redirect(url_for('painel_geral'))
+
 
         # Salvar o ID da obra escolhida na sessão (opcional para acesso posterior)
         from flask import session
