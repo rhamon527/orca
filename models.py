@@ -17,9 +17,12 @@ class User(db.Model, UserMixin):
     tipo = db.Column(db.String(20), nullable=False)  # 'visualizador' ou 'editor'
 
 class Obra(db.Model):
+    __tablename__ = 'obras'
+    
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(200), nullable=False)
     gastos = db.relationship('Gasto', backref='obra', lazy=True)
+
 
 class Gasto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
