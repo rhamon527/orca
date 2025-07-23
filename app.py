@@ -6,7 +6,7 @@ from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from flask import render_template, request, redirect, flash
-from models import funcionario, db
+from models import Funcionario, db
 from flask_login import login_required
 import pandas as pd
 import io
