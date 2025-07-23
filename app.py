@@ -21,6 +21,22 @@ db.init_app(app)
 # Cria as tabelas assim que a app é carregada
 with app.app_context():
     db.create_all()
+# Cria as tabelas assim que a app é carregada
+with app.app_context():
+    db.create_all()
+
+    # Cria uma obra padrão se não existir nenhuma
+    if not Obra.query.first():
+        nova_obra = Obra(
+            nome='Obra Teste',
+            local='Cidade',
+            estado='UF',
+            cidade='Cidade',
+            responsavel='Responsável',
+            usina='Usina'
+        )
+        db.session.add(nova_obra)
+        db.session.commit()
 
     # Cria usuário padrão se não existir
     from werkzeug.security import generate_password_hash
@@ -450,5 +466,5 @@ def api_gastos_tipos():
 with app.app_context():
     db.create_all()
 
-if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
