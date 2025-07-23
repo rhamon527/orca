@@ -115,11 +115,23 @@ def setor():
 def painel_geral():
     return render_template('painel_geral.html', user=current_user)
 
-@app.route('/funcionarios')
+@app.route('/funcionarios', methods=['GET', 'POST'])
 @login_required
 def funcionarios():
-    funcionarios = Funcionario.query.all()
-    return render_template('funcionarios.html', funcionarios=funcionarios)
+    if request.method == 'POST':
+        nome = request.form['nome']
+        cpf = request.form['cpf']
+        data_nascimento = request.form['data_nascimento']
+        obra_id = request.form['obra_id']
+
+        novo_funcionario = Funcionario(nome=nome, cpf=cpf, data_nascimento=data_nascimento, obra_id=obra_id)
+        db.session.add(novo_funcionario)
+        db.session.commit()
+
+        flash('Funcionário cadastrado com sucesso!')
+        return redirect('/funcionarios')
+
+    return render_template('funcionarios.html')
 
 @app.route('/painel/rh')
 @login_required
