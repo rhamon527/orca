@@ -87,21 +87,24 @@ def add_obra():
     return redirect(url_for('obras'))
     
 @app.route('/setor', methods=['GET', 'POST'])
+@app.route('/setor', methods=['GET', 'POST'])
 @login_required
 def setor():
     if request.method == 'POST':
         setor_escolhido = request.form.get('setor')
         obra_id = request.form.get('obra')
-    
-if not obra_id:
-    flash('Selecione uma obra.')
-    return redirect(url_for('setor'))
 
-# Salva só a obra, ignora o setor
-from flask import session
-session['obra_id'] = obra_id
+        if not obra_id:
+            flash('Selecione uma obra.')
+            return redirect(url_for('setor'))
 
-return redirect(url_for('painel_geral'))
+        from flask import session
+        session['obra_id'] = obra_id
+        return redirect(url_for('painel_geral'))
+
+    obras = Obra.query.all()
+    return render_template('setor.html', obras=obras)
+
 
 @app.route('/painel/rh')
 @login_required
