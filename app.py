@@ -103,15 +103,8 @@ def setor():
 
         setor_escolhido = setor_escolhido.lower()
 
-        if setor_escolhido == 'rh':
-            return redirect(url_for('painel_rh', obra_id=obra_id))
-        elif setor_escolhido == 'fiscal':
-            return redirect(url_for('painel_fiscal', obra_id=obra_id))
-        elif setor_escolhido == 'seguranca':
-            return redirect(url_for('painel_seguranca', obra_id=obra_id))
-        
-        flash('Setor inválido.')
         return redirect(url_for('painel_geral'))
+
 
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
