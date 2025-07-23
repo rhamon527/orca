@@ -46,3 +46,22 @@ class Holerite(db.Model):
     horas_50 = db.Column(db.Float, default=0.0)
     horas_100 = db.Column(db.Float, default=0.0)
     valor_liquido = db.Column(db.Float, nullable=False)
+    
+class Locacao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tipo = db.Column(db.String(100))
+    valor = db.Column(db.Float)
+    data = db.Column(db.Date)
+    nf = db.Column(db.String(50))
+    obra_destino = db.Column(db.String(100))
+
+
+class EntregaEPI(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    funcao = db.Column(db.String(100))
+    epi = db.Column(db.String(100))
+    data = db.Column(db.Date)
+    assinatura = db.Column(db.String(100))
+
+    funcionario = db.relationship('Funcionario', backref='entregas_epi')
