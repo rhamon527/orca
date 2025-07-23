@@ -109,6 +109,11 @@ def setor():
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
 
+@app.route('/painel_geral')
+@login_required
+def painel_geral():
+    return render_template('painel_geral.html', user=current_user)
+
 @app.route('/painel/rh')
 @login_required
 def painel_rh():
