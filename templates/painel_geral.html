@@ -34,7 +34,7 @@
   {% endif %}
 
   {% if user.tipo == 'editor' or user.tipo == 'fiscal' %}
-    <div class="card"><a href="{{ url_for('gastos', obra_id=1) }}">📄 Gastos</a></div>
+    <div class="card"><a href="{{ url_for('gastos', obra_id=obra_id) }}">💸 Gastos</a>/a></div>
    {% endif %}
     <div class="card"><a href="{{ url_for('graficos') }}">📊 Gráficos</a></div>
   {% endif %}
