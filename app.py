@@ -135,41 +135,10 @@ def painel_geral():
     obra_id = obra.id if obra else None
     return render_template('painel_geral.html', user=current_user, obra_id=obra_id)
     
-@app.route('/funcionarios', methods=['GET', 'POST'])
+@app.route('/funcionarios')
 @login_required
 def funcionarios():
-    if request.method == 'POST':
-        try:
-            nome = request.form['nome']
-            cpf = request.form['cpf']
-            data_nascimento = request.form['data_nascimento']
-            obra_id = int(request.form['obra_id'])
-
-            novo = Funcionario(
-                nome=nome,
-                cpf=cpf,
-                data_nascimento=data_nascimento,
-                obra_id=obra_id
-            )
-            db.session.add(novo)
-            db.session.commit()
-            flash('Funcionário cadastrado com sucesso!')
-            return redirect('/funcionarios')
-        except Exception as e:
-            flash(f'Erro: {str(e)}')
-
-   
-    funcionarios = Funcionario.query.all()
-    return render_template('funcionarios.html', funcionarios=funcionarios)
-
-@app.route('/painel/rh')
-@login_required
-def painel_rh():
-    return render_template('painel_rh.html', user=current_user)
-@app.route('/painel/fiscal')
-@login_required
-def painel_fiscal():
-    return render_template('painel_fiscal.html', user=current_user)
+    return "<h2>Página de Funcionários (em construção)</h2>"
 
 @app.route('/fiscal/registrar', methods=['POST'])
 @login_required
