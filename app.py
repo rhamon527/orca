@@ -138,33 +138,28 @@ def funcionarios():
 @app.route('/holerites', methods=['GET', 'POST'])
 @login_required
 def holerites():
-    funcionarios = Funcionario.query.order_by(Funcionario.nome).all()
-    holerites = Holerite.query.order_by(Holerite.data_referencia.desc()).all()
     if request.method == 'POST':
-        funcionario_id = request.form['funcionario_id']
-        data_referencia = request.form['data_referencia']
-        valor_bruto = float(request.form['valor_bruto'])
+        nome = request.form['nome']
+        salario_bruto = float(request.form['salario_bruto'])
         descontos = float(request.form.get('descontos', 0))
         impostos = float(request.form.get('impostos', 0))
         horas_50 = float(request.form.get('horas_50', 0))
         horas_100 = float(request.form.get('horas_100', 0))
-        valor_liquido = valor_bruto - descontos - impostos
 
         holerite = Holerite(
-            funcionario_id=funcionario_id,
-            data_referencia=data_referencia,
-            valor_bruto=valor_bruto,
+            nome=nome,
+            salario_bruto=salario_bruto,
             descontos=descontos,
             impostos=impostos,
             horas_50=horas_50,
-            horas_100=horas_100,
-            valor_liquido=valor_liquido
+            horas_100=horas_100
         )
         db.session.add(holerite)
         db.session.commit()
-        flash('Holerite cadastrado!')
+        flash('Holerite cadastrado com sucesso!')
         return redirect(url_for('holerites'))
-    return render_template('holerites.html', funcionarios=funcionarios, holerites=holerites)
+
+    return render_template('holerites.html')
 
 @app.route('/holerites/delete/<int:id>', methods=['POST'])
 @login_required
