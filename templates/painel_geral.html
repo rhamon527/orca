@@ -27,7 +27,7 @@
   {% if user.tipo == 'editor' or user.tipo == 'rh' %}
   <div class="card">
     <a href="{{ url_for('funcionarios') }}">👥 Funcionários</a>
-</div>
+</div> {% endif %}
 <div class="card">
     <a href="{{ url_for('painel_rh') }}">📗 Holerites</a>
 </div>
@@ -35,6 +35,7 @@
 
   {% if user.tipo == 'editor' or user.tipo == 'fiscal' %}
     <div class="card"><a href="{{ url_for('gastos', obra_id=1) }}">📄 Gastos</a></div>
+   {% endif %}
     <div class="card"><a href="{{ url_for('graficos') }}">📊 Gráficos</a></div>
   {% endif %}
 
