@@ -194,8 +194,8 @@ def painel_rh():
         flash('Holerite cadastrado com sucesso!')
         return redirect(url_for('painel_rh'))
 
-    # Adapte o nome do arquivo abaixo para bater com o nome do seu HTML:
-    return render_template('holerites.html')
+    # aqui você deve usar o nome exato do seu HTML
+    return render_template('holerite.html')
 
 @app.route('/gastos/<int:obra_id>')
 @login_required
