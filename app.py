@@ -87,7 +87,6 @@ def add_obra():
     return redirect(url_for('obras'))
     
 @app.route('/setor', methods=['GET', 'POST'])
-@app.route('/setor', methods=['GET', 'POST'])
 @login_required
 def setor():
     if request.method == 'POST':
@@ -102,6 +101,7 @@ def setor():
         session['obra_id'] = obra_id
         return redirect(url_for('painel_geral'))
 
+    # Só executa isso se for GET
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
 
