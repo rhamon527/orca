@@ -117,7 +117,6 @@ def painel_geral():
 @app.route('/funcionarios')
 @login_required
 def funcionarios():
-    from models import Funcionario  # ou ajuste se já tiver importado antes
     funcionarios = Funcionario.query.all()
     return render_template('funcionarios.html', funcionarios=funcionarios)
 
