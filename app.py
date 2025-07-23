@@ -5,6 +5,7 @@ from models import db, User, Obra, Gasto
 from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from models import Funcionarios
 import pandas as pd
 import io
 from flask import send_file, jsonify
