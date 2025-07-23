@@ -93,7 +93,7 @@ def setor():
         setor_escolhido = request.form.get('setor')
         obra_id = request.form.get('obra')
     
-    if not obra_id:
+if not obra_id:
     flash('Selecione uma obra.')
     return redirect(url_for('setor'))
 
