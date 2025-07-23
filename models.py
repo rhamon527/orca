@@ -16,13 +16,12 @@ class User(db.Model, UserMixin):
     senha = db.Column(db.String(128), nullable=False)
     tipo = db.Column(db.String(20), nullable=False)  # 'visualizador' ou 'editor'
 
-class Obra(db.Model):
-    __tablename__ = 'obras'
-    
+class Gasto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(200), nullable=False)
-    gastos = db.relationship('Gasto', backref='obra', lazy=True)
-
+    descricao = db.Column(db.String(200), nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+    
+    obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'))  # ESSA LINHA É ESSENCIAL
 
 class Gasto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
