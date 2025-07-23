@@ -134,37 +134,6 @@ def painel_geral():
     obra = Obra.query.first()  # pega a primeira obra cadastrada (ou ajuste a lógica como preferir)
     obra_id = obra.id if obra else None
     return render_template('painel_geral.html', user=current_user, obra_id=obra_id)
-
-@app.route('/painel_rh')
-@login_required
-def painel_rh():
-    return "<h2>Página de Holerites (em construção)</h2>"
-
-@app.route('/gastos/<int:obra_id>')
-@login_required
-def gastos(obra_id):
-    return f"<h2>Página de Gastos da Obra {obra_id} (em construção)</h2>"
-
-@app.route('/graficos')
-@login_required
-def graficos():
-    return "<h2>Página de Gráficos (em construção)</h2>"
-
-@app.route('/users')
-@login_required
-def users():
-    return "<h2>Página de Usuários (em construção)</h2>"
-
-@app.route('/mensagens')
-@login_required
-def mensagens():
-    return "<h2>Página de Mensagens (em construção)</h2>"
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
     
 @app.route('/funcionarios', methods=['GET', 'POST'])
 @login_required
