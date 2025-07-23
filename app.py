@@ -131,7 +131,9 @@ def setor():
 @app.route('/painel_geral')
 @login_required
 def painel_geral():
-    return render_template('painel_geral.html', user=current_user)
+    obra = Obra.query.first()  # pega a primeira obra cadastrada (ou ajuste a lógica como preferir)
+    obra_id = obra.id if obra else None
+    return render_template('painel_geral.html', user=current_user, obra_id=obra_id)
 
 @app.route('/funcionarios', methods=['GET', 'POST'])
 @login_required
