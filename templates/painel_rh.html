@@ -5,10 +5,14 @@
 {% block content %}
 <h2>👩‍💼 Painel do RH</h2>
 
-<div class="botoes-rh">
-  <a href="{{ url_for('funcionarios') }}">👥 Cadastrar Funcionário</a>
-  <a href="{{ url_for('holerite') }}">📄 Folha de Pagamento</a>
-</div>
+{% if user.tipo == 'editor' or user.tipo == 'rh' %}
+  <div class="card">
+    <a href="{{ url_for('funcionarios') }}">👥 Funcionários</a>
+  </div>
+  <div class="card">
+    <a href="{{ url_for('painel_rh') }}">📗 Holerites</a>
+  </div>
+{% endif %}
 
 <style>
   .botoes-rh {
