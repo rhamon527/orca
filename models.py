@@ -29,19 +29,15 @@ class Gasto(db.Model):
     descricao = db.Column(db.Text, nullable=True)
     aprovador = db.Column(db.String(100), nullable=False)
     obra_id = db.Column(db.Integer, db.ForeignKey('obra.id'), nullable=False)
-class Funcionario(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    cpf = db.Column(db.String(14), unique=True, nullable=False)
-    data_nascimento = db.Column(db.Date, nullable=False)
-    holerites = db.relationship('Holerite', backref='funcionario', lazy=True)
-
+    
 class Funcionario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(120), nullable=False)
     cpf = db.Column(db.String(20), nullable=False)
     data_nascimento = db.Column(db.Date, nullable=False)
     obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'))
+    holerites = db.relationship('Holerite', backref='funcionario', lazy=True)
+
 
 class Holerite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
