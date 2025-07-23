@@ -18,8 +18,8 @@ class User(db.Model, UserMixin):
 
 
 class Gasto(db.Model):
-     __tablename__ = 'gastos'
-    __table_args__ = {'extend_existing': True}
+    __tablename__ = 'gastos'
+    __table_args__ = {'extend_existing': True}  
 
     id = db.Column(db.Integer, primary_key=True)
     tipo_nota = db.Column(db.String(200), nullable=False)
