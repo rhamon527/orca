@@ -109,10 +109,31 @@ def painel_geral():
     return render_template('painel_geral.html', user=current_user, obra_id=obra_id)
 
 # ROTA FUNCIONÁRIOS - PARA NÃO DAR ERRO NO PAINEL
-@app.route('/funcionarios')
+@app.route('/funcionarios', methods=['GET', 'POST'])
 @login_required
 def funcionarios():
-    return "<h2>Página de Funcionários (em construção)</h2>"
+    if request.method == 'POST':
+        nome = request.form['nome']
+        cpf = request.form['cpf']
+        data_nascimento = request.form['data_nascimento']
+        obra_id = request.form['obra_id']
+
+        if not (nome and cpf and data_nascimento and obra_id):
+            flash('Preencha todos os campos!')
+        else:
+            funcionario = Funcionario(
+                nome=nome,
+                cpf=cpf,
+                data_nascimento=data_nascimento,
+                obra_id=obra_id
+            )
+            db.session.add(funcionario)
+            db.session.commit()
+            flash('Funcionário cadastrado com sucesso!')
+        return redirect(url_for('funcionarios'))
+
+    funcionarios = Funcionario.query.order_by(Funcionario.nome).all()
+    return render_template('funcionarios.html', funcionarios=funcionarios)
 
 @app.route('/painel_rh')
 @login_required
