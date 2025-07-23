@@ -147,6 +147,39 @@ def registrar_locacao():
     db.session.commit()
     flash('Locação registrada com sucesso!')
     return redirect(url_for('painel_fiscal'))
+@app.route('/painel/seguranca')
+@login_required
+def painel_seguranca():
+    return render_template('painel_seguranca.html', user=current_user)
+
+
+@app.route('/seguranca/registrar_epi', methods=['GET', 'POST'])
+@login_required
+def registrar_epi():
+    from datetime import datetime
+    if request.method == 'POST':
+        funcionario_id = request.form['funcionario_id']
+        funcao = request.form['funcao']
+        epi = request.form['epi']
+        data = datetime.strptime(request.form['data'], '%Y-%m-%d')
+        assinatura = request.form['assinatura']
+
+        entrega = EntregaEPI(
+            funcionario_id=funcionario_id,
+            funcao=funcao,
+            epi=epi,
+            data=data,
+            assinatura=assinatura
+        )
+        db.session.add(entrega)
+        db.session.commit()
+        flash('Entrega registrada com sucesso!')
+        return redirect(url_for('painel_seguranca'))
+
+    funcionarios = Funcionario.query.all()
+    return render_template('painel_seguranca.html', funcionarios=funcionarios)
+
+
 @app.route('/funcionarios/add', methods=['POST'])
 @login_required
 def add_funcionario():
