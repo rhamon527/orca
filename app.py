@@ -93,18 +93,28 @@ def setor():
         setor_escolhido = request.form.get('setor')
         obra_id = request.form.get('obra')
 
-        if not obra_id:
-            flash('Selecione uma obra.')
+        if not obra_id or not setor_escolhido:
+            flash('Selecione uma obra e um setor.')
             return redirect(url_for('setor'))
 
         from flask import session
         session['obra_id'] = obra_id
-        return redirect(url_for('painel_geral'))
+        session['setor'] = setor_escolhido  # ← agora salva também o setor
 
-    # Só executa isso se for GET
+        # Redireciona para o painel correto com base no setor
+        if setor_escolhido == 'RH':
+            return redirect(url_for('painel_rh'))
+        elif setor_escolhido == 'Fiscal':
+            return redirect(url_for('painel_fiscal'))
+        elif setor_escolhido == 'Segurança':
+            return redirect(url_for('painel_seguranca'))
+        else:
+            flash('Setor inválido.')
+            return redirect(url_for('setor'))
+
+    # GET → mostra o template com as obras
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
-
 
 @app.route('/painel/rh')
 @login_required
