@@ -118,7 +118,7 @@ def painel_geral():
 @app.route('/funcionarios')
 @login_required
 def funcionarios():
-    funcionarios = Funcionarios.query.all()
+    funcionarios = Funcionario.query.all()
     return render_template('funcionarios.html', funcionarios=funcionarios)
 
 @app.route('/painel/rh')
