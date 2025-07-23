@@ -117,7 +117,7 @@ def setor():
 def painel_geral():
     return render_template('painel_geral.html', user=current_user)
 
-@@app.route('/funcionarios', methods=['GET', 'POST'])
+@app.route('/funcionarios', methods=['GET', 'POST'])
 @login_required
 def funcionarios():
     if request.method == 'POST':
@@ -141,7 +141,7 @@ def funcionarios():
             flash(f'Erro: {str(e)}')
 
     return render_template('funcionarios.html')
-    
+
 @app.route('/painel/rh')
 @login_required
 def painel_rh():
