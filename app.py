@@ -140,7 +140,10 @@ def funcionarios():
         except Exception as e:
             flash(f'Erro: {str(e)}')
 
-    return render_template('funcionarios.html')
+    # SE FOR GET (ou POST com erro), LISTA OS FUNCIONÁRIOS E MOSTRA A TELA:
+    funcionarios = Funcionario.query.all()
+    return render_template('funcionarios.html', funcionarios=funcionarios)
+
 
 @app.route('/painel/rh')
 @login_required
