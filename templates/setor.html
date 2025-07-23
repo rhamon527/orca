@@ -101,12 +101,24 @@
     }
   </style>
 
-  <script>
-    function selecionarSetor(valor) {
-      document.getElementById('setor_input').value = valor;
-      document.getElementById('form_setor').submit();
-    }
-  </script>
+ <script>
+  function selecionarSetor(valor) {
+    document.getElementById('setor_input').value = valor;
+    document.getElementById('form_setor').submit();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form_setor');
+    form.addEventListener('submit', function (e) {
+      const setor = document.getElementById('setor_input').value;
+      if (!setor) {
+        e.preventDefault();
+        alert("Por favor, selecione um setor antes de continuar.");
+      }
+    });
+  });
+</script>
+
 </head>
 <body>
 
