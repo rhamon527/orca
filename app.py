@@ -92,8 +92,8 @@ def setor():
     if request.method == 'POST':
         setor_escolhido = request.form.get('setor')
         obra_id = request.form.get('obra')
-
-        if not obra_id:
+    
+    if not obra_id:
     flash('Selecione uma obra.')
     return redirect(url_for('setor'))
 
@@ -102,16 +102,6 @@ from flask import session
 session['obra_id'] = obra_id
 
 return redirect(url_for('painel_geral'))
-
-
-        # Salvar o ID da obra escolhida na sessão (opcional para acesso posterior)
-        from flask import session
-        session['obra_id'] = obra_id
-
-        setor_escolhido = setor_escolhido.lower()
-
-        return redirect(url_for('painel_geral'))
-
 
     obras = Obra.query.all()
     return render_template('setor.html', obras=obras)
