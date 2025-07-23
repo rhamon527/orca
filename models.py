@@ -29,14 +29,15 @@ class Gasto(db.Model):
     aprovador = db.Column(db.String(100), nullable=False)
     obra_id = db.Column(db.Integer, db.ForeignKey('obra.id'), nullable=False)
     
-class Funcionario(db.Model):
-    __tablename__ = 'funcionarios'
-
+class Obra(db.Model):
+    __tablename__ = 'obras'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(200), nullable=False)
-    cpf = db.Column(db.String(14), nullable=False)
-    data_nascimento = db.Column(db.Date, nullable=False)
-    obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'), nullable=False)
+    local = db.Column(db.String(200), nullable=False)
+    estado = db.Column(db.String(100), nullable=False)
+    cidade = db.Column(db.String(100), nullable=False)
+    responsavel = db.Column(db.String(200), nullable=False)
+    usina = db.Column(db.String(200), nullable=True)
 
 class Holerite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
