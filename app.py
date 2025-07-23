@@ -135,9 +135,9 @@ def funcionarios():
     funcionarios = Funcionario.query.order_by(Funcionario.nome).all()
     return render_template('funcionarios.html', funcionarios=funcionarios)
     
-@app.route('/holerites', methods=['GET', 'POST'])
+@@app.route('/holerite', methods=['GET', 'POST'])
 @login_required
-def holerites():
+def holerite():
     if request.method == 'POST':
         nome = request.form['nome']
         salario_bruto = float(request.form['salario_bruto'])
@@ -157,18 +157,18 @@ def holerites():
         db.session.add(holerite)
         db.session.commit()
         flash('Holerite cadastrado com sucesso!')
-        return redirect(url_for('holerites'))
+        return redirect(url_for('holerite'))
 
-    return render_template('holerites.html')
+    return render_template('holerite.html')
 
-@app.route('/holerites/delete/<int:id>', methods=['POST'])
+@app.route('/holerite/delete/<int:id>', methods=['POST'])
 @login_required
 def delete_holerite(id):
     holerite = Holerite.query.get_or_404(id)
     db.session.delete(holerite)
     db.session.commit()
     flash('Holerite excluído!')
-    return redirect(url_for('holerites'))
+    return redirect(url_for('holerite'))
 
 @app.route('/painel_rh', methods=['GET', 'POST'])
 @login_required
