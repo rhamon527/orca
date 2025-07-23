@@ -5,7 +5,9 @@ from models import db, User, Obra, Gasto
 from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from models import Funcionario  
+from flask import render_template, request, redirect, flash
+from models import Funcionario, db
+from flask_login import login_required
 import pandas as pd
 import io
 from flask import send_file, jsonify
@@ -115,24 +117,31 @@ def setor():
 def painel_geral():
     return render_template('painel_geral.html', user=current_user)
 
-@app.route('/funcionarios', methods=['GET', 'POST'])
+@@app.route('/funcionarios', methods=['GET', 'POST'])
 @login_required
 def funcionarios():
     if request.method == 'POST':
-        nome = request.form['nome']
-        cpf = request.form['cpf']
-        data_nascimento = request.form['data_nascimento']
-        obra_id = request.form['obra_id']
+        try:
+            nome = request.form['nome']
+            cpf = request.form['cpf']
+            data_nascimento = request.form['data_nascimento']
+            obra_id = int(request.form['obra_id'])
 
-        novo_funcionario = Funcionario(nome=nome, cpf=cpf, data_nascimento=data_nascimento, obra_id=obra_id)
-        db.session.add(novo_funcionario)
-        db.session.commit()
-
-        flash('Funcionário cadastrado com sucesso!')
-        return redirect('/funcionarios')
+            novo = Funcionario(
+                nome=nome,
+                cpf=cpf,
+                data_nascimento=data_nascimento,
+                obra_id=obra_id
+            )
+            db.session.add(novo)
+            db.session.commit()
+            flash('Funcionário cadastrado com sucesso!')
+            return redirect('/funcionarios')
+        except Exception as e:
+            flash(f'Erro: {str(e)}')
 
     return render_template('funcionarios.html')
-
+    
 @app.route('/painel/rh')
 @login_required
 def painel_rh():
