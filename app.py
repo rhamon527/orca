@@ -114,6 +114,13 @@ def setor():
 def painel_geral():
     return render_template('painel_geral.html', user=current_user)
 
+@app.route('/funcionarios')
+@login_required
+def funcionarios():
+    from models import Funcionario  # ou ajuste se já tiver importado antes
+    funcionarios = Funcionario.query.all()
+    return render_template('funcionarios.html', funcionarios=funcionarios)
+
 @app.route('/painel/rh')
 @login_required
 def painel_rh():
