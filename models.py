@@ -33,7 +33,7 @@ class Gasto(db.Model):
     data_nota = db.Column(db.Date, nullable=False)
     descricao = db.Column(db.Text, nullable=True)
     aprovador = db.Column(db.String(100), nullable=False)
-    obra_id = db.Column(db.Integer, db.ForeignKey('obra.id'), nullable=False)
+    obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'), nullable=False)  
     
 class Obra(db.Model):
     __tablename__ = 'obras'
