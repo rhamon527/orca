@@ -141,7 +141,7 @@ def funcionarios():
             flash(f'Erro: {str(e)}')
 
     # SE FOR GET (ou POST com erro), LISTA OS FUNCIONÁRIOS E MOSTRA A TELA:
-    funcionarios = Funcionario.query.all()
+    funcionarios = Funcionarios.query.all()
     return render_template('funcionarios.html', funcionarios=funcionarios)
 
 
