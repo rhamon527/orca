@@ -135,11 +135,6 @@ def painel_geral():
     obra_id = obra.id if obra else None
     return render_template('painel_geral.html', user=current_user, obra_id=obra_id)
     
-@app.route('/funcionarios')
-@login_required
-def funcionarios():
-    return "<h2>Página de Funcionários (em construção)</h2>"
-
 @app.route('/fiscal/registrar', methods=['POST'])
 @login_required
 def registrar_locacao():
