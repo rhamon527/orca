@@ -170,10 +170,32 @@ def delete_holerite(id):
     flash('Holerite excluído!')
     return redirect(url_for('holerites'))
 
-@app.route('/painel_rh')
+@app.route('/painel_rh', methods=['GET', 'POST'])
 @login_required
 def painel_rh():
-    return "<h2>Página de Holerites (em construção)</h2>"
+    if request.method == 'POST':
+        nome = request.form['nome']
+        salario_bruto = float(request.form['salario_bruto'])
+        descontos = float(request.form.get('descontos', 0))
+        impostos = float(request.form.get('impostos', 0))
+        horas_50 = float(request.form.get('horas_50', 0))
+        horas_100 = float(request.form.get('horas_100', 0))
+
+        holerite = Holerite(
+            nome=nome,
+            salario_bruto=salario_bruto,
+            descontos=descontos,
+            impostos=impostos,
+            horas_50=horas_50,
+            horas_100=horas_100
+        )
+        db.session.add(holerite)
+        db.session.commit()
+        flash('Holerite cadastrado com sucesso!')
+        return redirect(url_for('painel_rh'))
+
+    # Adapte o nome do arquivo abaixo para bater com o nome do seu HTML:
+    return render_template('holerites.html')
 
 @app.route('/gastos/<int:obra_id>')
 @login_required
