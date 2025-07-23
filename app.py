@@ -88,39 +88,6 @@ def add_obra():
         db.session.add(Obra(nome=nome))
         db.session.commit()
     return redirect(url_for('obras'))
-
-@app.route('/cadastrar_obra', methods=['GET', 'POST'])
-def cadastrar_obra():
-    if request.method == 'POST':
-        nome = request.form['nome']
-        local = request.form['local']
-        estado = request.form['estado']
-        cidade = request.form['cidade']
-        responsavel = request.form['responsavel']
-        usina = request.form['usina']
-        nova_obra = Obra(
-            nome=nome,
-            local=local,
-            estado=estado,
-            cidade=cidade,
-            responsavel=responsavel,
-            usina=usina
-        )
-        db.session.add(nova_obra)
-        db.session.commit()
-        return "<h2>Obra cadastrada com sucesso!</h2><a href='/setor'>Ir para seleção de setor/obra</a>"
-    return '''
-    <h2>Cadastrar Obra</h2>
-    <form method="post">
-        Nome: <input name="nome" required><br>
-        Local: <input name="local" required><br>
-        Estado: <input name="estado" required><br>
-        Cidade: <input name="cidade" required><br>
-        Responsável: <input name="responsavel" required><br>
-        Usina: <input name="usina"><br>
-        <button type="submit">Cadastrar</button>
-    </form>
-    '''
     
 @app.route('/setor', methods=['GET', 'POST'])
 @login_required
