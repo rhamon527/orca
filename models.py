@@ -16,6 +16,12 @@ class User(db.Model, UserMixin):
     senha = db.Column(db.String(128), nullable=False)
     tipo = db.Column(db.String(20), nullable=False)  # 'visualizador' ou 'editor'
 
+class Funcionario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    cpf = db.Column(db.String(20), nullable=False)
+    data_nascimento = db.Column(db.String(20), nullable=False)
+    obra_id = db.Column(db.Integer, nullable=False)
 
 class Gasto(db.Model):
     __tablename__ = 'gastos'
