@@ -121,6 +121,32 @@ def setor():
 @login_required
 def painel_rh():
     return render_template('painel_rh.html', user=current_user)
+@app.route('/painel/fiscal')
+@login_required
+def painel_fiscal():
+    return render_template('painel_fiscal.html', user=current_user)
+
+@app.route('/fiscal/registrar', methods=['POST'])
+@login_required
+def registrar_locacao():
+    from datetime import datetime
+    tipo = request.form['tipo']
+    valor = float(request.form['valor'].replace(',', '.'))
+    data = datetime.strptime(request.form['data'], '%Y-%m-%d')
+    nf = request.form['nf']
+    obra_destino = request.form['obra_destino']
+
+    locacao = Locacao(
+        tipo=tipo,
+        valor=valor,
+        data=data,
+        nf=nf,
+        obra_destino=obra_destino
+    )
+    db.session.add(locacao)
+    db.session.commit()
+    flash('Locação registrada com sucesso!')
+    return redirect(url_for('painel_fiscal'))
 @app.route('/funcionarios/add', methods=['POST'])
 @login_required
 def add_funcionario():
