@@ -50,14 +50,14 @@ class Obra(db.Model):
 
 class Holerite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    funcionario = db.Column(db.String(100))
-    salario_bruto = db.Column(db.Float)
-    impostos = db.Column(db.Float)
-    horas_extras_50 = db.Column(db.Integer)
-    horas_extras_100 = db.Column(db.Integer)
-    dsr = db.Column(db.Float)
-    dsr_extra = db.Column(db.Float)
-    data = db.Column(db.Date, default=date.today)
+    nome = db.Column(db.String(100), nullable=False)
+    salario_bruto = db.Column(db.Float, nullable=False)
+    impostos = db.Column(db.Float, default=0)
+    horas_50 = db.Column(db.Float, default=0)
+    horas_100 = db.Column(db.Float, default=0)
+    dsr = db.Column(db.Float, default=0)
+    dsr_extra = db.Column(db.Float, default=0)
+    data = db.Column(db.Date)
     
 class Locacao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
