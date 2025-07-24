@@ -34,6 +34,8 @@ class Gasto(db.Model):
     descricao = db.Column(db.Text, nullable=True)
     aprovador = db.Column(db.String(100), nullable=False)
     obra_id = db.Column(db.Integer, db.ForeignKey('obras.id'), nullable=False)  
+    obra = db.relationship('Obra', backref='gastos')
+
     
 class Obra(db.Model):
     __tablename__ = 'obras'
