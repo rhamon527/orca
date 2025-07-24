@@ -31,10 +31,12 @@ with app.app_context():
     # Cria usuário padrão se não existir
     if not User.query.filter_by(email='rhamonvieiraborges7@gmail.com').first():
         default_user = User(
-            nome='Rhamon Vieira Borges',
-            email='rhamonvieiraborges7@gmail.com',
-            senha=generate_password_hash('3691'),
-            tipo='editor'
+    nome='Rhamon Vieira Borges',
+    email='rhamonvieiraborges7@gmail.com',
+    senha=generate_password_hash('3691'),
+    tipo='editor',
+    active=True  # <- ESSENCIAL para liberar o login
+)
         )
         db.session.add(default_user)
         db.session.commit()
