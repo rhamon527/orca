@@ -37,7 +37,6 @@ with app.app_context():
     tipo='editor',
     active=True  # <- ESSENCIAL para liberar o login
 )
-        )
         db.session.add(default_user)
         db.session.commit()
 
