@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Autorizar Usuários | ORCA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #000;
+            color: #FFD700;
+            padding: 20px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a.botao-autorizacao {
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        a.botao-autorizacao:hover {
+            background-color: #218838;
+        }
+
+        .vazio {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>🔐 Autorizar Novos Usuários - ORCA</header>
+    
+    <div class="container">
+        <h2>Usuários pendentes de autorização</h2>
+
+        <ul>
+            {% for user in usuarios %}
+                <li>
+                    <span>{{ user.nome }} ({{ user.email }})</span>
+                    <a class="botao-autorizacao" href="{{ url_for('autorizar', user_id=user.id) }}">✅ Autorizar</a>
+                </li>
+            {% else %}
+                <li class="vazio">Nenhum usuário pendente no momento.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
