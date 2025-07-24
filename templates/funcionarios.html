@@ -84,6 +84,21 @@
 
     <form method="POST">
 
+  <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+  <form action="{{ url_for('exportar_funcionarios') }}" method="get">
+    <button style="padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      📤 Exportar PDF
+    </button>
+  </form>
+
+  <form action="{{ url_for('importar_funcionarios') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="arquivo" accept=".csv,.xlsx,.xls,.txt" required>
+    <button style="padding: 8px 15px; background-color: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      📥 Importar Dados
+    </button>
+  </form>
+</div>
+
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
 
