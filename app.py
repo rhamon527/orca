@@ -259,7 +259,8 @@ def graficos():
     gastos_por_obra = []
 
     for obra in obras:
-        total = sum([gasto.valor for gasto in Gasto.query.filter_by(obra_id=obra.id).all()])
+        gastos = Gasto.query.filter_by(obra_id=obra.id).all()
+        total = sum([gasto.valor or 0 for gasto in gastos])  # Garante que None vira 0
         gastos_por_obra.append((obra.nome, total))
 
     labels = [x[0] for x in gastos_por_obra]
