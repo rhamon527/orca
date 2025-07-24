@@ -96,6 +96,19 @@ def aprovar_usuarios():
     usuarios_pendentes = User.query.filter_by(ativo=False).all()
     return render_template('aprovar_usuarios.html', usuarios=usuarios_pendentes)
 
+@app.route('/ativar_usuario/<int:user_id>', methods=['POST'])
+@login_required
+def ativar_usuario(user_id):
+    if current_user.tipo != 'editor':
+        return "Acesso restrito", 403
+    
+    user = User.query.get(user_id)
+    if user:
+        user.ativo = True
+        db.session.commit()
+    
+    return redirect(url_for('aprovar_usuarios'))
+
 @app.route('/autorizar/<int:user_id>')
 @login_required
 def autorizar(user_id):
