@@ -69,12 +69,20 @@ def register():
             flash('E-mail já cadastrado.')
             return redirect(url_for('register'))
 
-        user = User(nome=nome, email=email, senha=senha, tipo=tipo, ativo=False)  # ← aqui o bloqueio
+        # 🔓 Ativa automaticamente apenas o seu usuário admin
+        ativo = True if email == 'rhamonvieiraborges7@gmail.com' else False
+
+        user = User(nome=nome, email=email, senha=senha, tipo=tipo, active=ativo)
         db.session.add(user)
         db.session.commit()
-        flash('Cadastro realizado com sucesso. Aguarde autorização do administrador.')
-        return redirect(url_for('login'))
 
+        if ativo:
+            flash('Cadastro realizado com sucesso. Faça o login.')
+        else:
+            flash('Cadastro enviado para aprovação do administrador.')
+
+        return redirect(url_for('login'))
+    
     return render_template('register.html')
 
 @app.route('/aprovar_usuarios')
