@@ -230,27 +230,27 @@ def adicionar_gasto():
     if request.method == 'POST':
         tipo_nota = request.form['tipo_nota']
         valor = float(request.form['valor'])
-        data_nota = datetime.strptime(request.form['data_nota'], '%Y-%m-%d')
+        data = datetime.strptime(request.form['data'], '%Y-%m-%d')
         descricao = request.form['descricao']
-        aprovador = request.form['aprovador']
         obra_id = int(request.form['obra_id'])
+        aprovado_por = request.form['aprovado_por']
 
         novo_gasto = Gasto(
             tipo_nota=tipo_nota,
             valor=valor,
-            data_nota=data_nota,
+            data_nota=data,
             descricao=descricao,
-            aprovador=aprovador,
-            obra_id=obra_id
+            obra_id=obra_id,
+            aprovador=aprovado_por
         )
         db.session.add(novo_gasto)
         db.session.commit()
-        flash('Gasto cadastrado com sucesso!')
+        flash('Gasto adicionado com sucesso!', 'success')
         return redirect(url_for('gastos'))
 
     obras = Obra.query.all()
     return render_template('adicionar_gasto.html', obras=obras)
-    
+
 
 @app.route('/graficos')
 @login_required
