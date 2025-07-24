@@ -135,7 +135,7 @@ def funcionarios():
     funcionarios = Funcionario.query.order_by(Funcionario.nome).all()
     return render_template('funcionarios.html', funcionarios=funcionarios)
     
-@@app.route('/holerite', methods=['GET', 'POST'])
+@app.route('/holerite', methods=['GET', 'POST'])
 @login_required
 def holerite():
     if request.method == 'POST':
