@@ -185,25 +185,26 @@ def funcionarios():
 @login_required
 def holerite():
     if request.method == 'POST':
-    nome = request.form['nome']
-    salario_bruto = request.form.get('salario_bruto')
-    descontos = request.form.get('descontos')
-    impostos = request.form.get('impostos')
-    horas_50 = request.form.get('horas_50')
-    horas_100 = request.form.get('horas_100')
+        nome = request.form['nome']
+        salario_bruto = request.form.get('salario_bruto')
+        descontos = request.form.get('descontos')
+        impostos = request.form.get('impostos')
+        horas_50 = request.form.get('horas_50')
+        horas_100 = request.form.get('horas_100')
 
-    holerite = Holerite(
-        nome=nome,
-        salario_bruto=salario_bruto,
-        descontos=descontos,
-        impostos=impostos,
-        horas_50=horas_50,
-        horas_100=horas_100
-    )
-    db.session.add(holerite)
-    db.session.commit()
-    flash('Holerite cadastrado com sucesso!')
-    return redirect(url_for('holerite'))
+        holerite = Holerite(
+            nome=nome,
+            salario_bruto=salario_bruto,
+            descontos=descontos,
+            impostos=impostos,
+            horas_50=horas_50,
+            horas_100=horas_100
+        )
+
+        db.session.add(holerite)
+        db.session.commit()
+        flash('Holerite cadastrado com sucesso!')
+        return redirect(url_for('holerite'))
 
 
 @app.route('/holerite/delete/<int:id>', methods=['POST'])
