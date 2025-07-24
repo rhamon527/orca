@@ -261,7 +261,7 @@ def graficos():
 {% block title %}Gráficos de Gastos | ORCA{% endblock %}
 
 {% block content %}
-<h2>📊 Gráfico de Gastos por Obra</h2>
+<h2> Gráfico de Gastos por Obra</h2>
 
 <canvas id="graficoGastos" width="400" height="200"></canvas>
 
