@@ -247,6 +247,12 @@ def painel_rh():
 
     return render_template('holerite.html')
 
+@app.route('/painel_seguranca')
+@login_required
+def painel_seguranca():
+    funcionarios = Funcionario.query.order_by(Funcionario.nome).all()
+    return render_template('painel_seguranca.html', funcionarios=funcionarios)
+
 @app.route('/gastos', methods=['GET', 'POST'])
 @login_required
 def gastos():
