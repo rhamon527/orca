@@ -77,6 +77,25 @@ def register():
 
     return render_template('register.html')
 
+@app.route('/aprovar_usuarios')
+@login_required
+def aprovar_usuarios():
+    if current_user.tipo != 'editor':
+        return "Acesso restrito", 403
+    usuarios_pendentes = User.query.filter_by(ativo=False).all()
+    return render_template('aprovar_usuarios.html', usuarios=usuarios_pendentes)
+
+@app.route('/autorizar/<int:user_id>')
+@login_required
+def autorizar(user_id):
+    if current_user.tipo != 'editor':
+        return "Acesso restrito", 403
+    usuario = User.query.get(user_id)
+    usuario.ativo = True
+    db.session.commit()
+    return redirect(url_for('aprovar_usuarios'))
+
+
 @app.route('/logout')
 @login_required
 def logout():
