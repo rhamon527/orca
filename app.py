@@ -305,6 +305,32 @@ def adicionar_gasto():
     obras = Obra.query.all()
     return render_template('adicionar_gasto.html', obras=obras)
 
+@app.route('/obras', methods=['GET', 'POST'])
+@login_required
+def obras():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        local = request.form['local']
+        estado = request.form['estado']
+        cidade = request.form['cidade']
+        responsavel = request.form['responsavel']
+        usina = request.form['usina']
+
+        nova_obra = Obra(
+            nome=nome,
+            local=local,
+            estado=estado,
+            cidade=cidade,
+            responsavel=responsavel,
+            usina=usina
+        )
+        db.session.add(nova_obra)
+        db.session.commit()
+        flash('✅ Obra cadastrada com sucesso!')
+
+    obras = Obra.query.order_by(Obra.nome).all()
+    return render_template('obras.html', obras=obras)
+
 
 @app.route('/graficos')
 @login_required
