@@ -37,15 +37,14 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🦺 Painel Segurança - Registro de EPI</h2>
-        <form action="/seguranca/registrar_epi" method="POST">
-            <label>Funcionário (Nome):</label>
-            <select name="funcionario_id">
-                {% for funcionario in funcionarios %}
-                    <option value="{{ funcionario.id }}">{{ funcionario.nome }}</option>
-                {% endfor %}
-            </select>
+    <<div style="margin-top: 20px;">
+  <a href="{{ url_for('painel_seguranca') }}" style="text-decoration: none;">
+    <button style="padding: 15px; width: 100%; background: #FFA500; border: none; color: #000; font-size: 16px; border-radius: 8px;">
+      🦺 Acessar Painel Segurança / EPIs
+    </button>
+  </a>
+</div>
+
 
             <label>Função:</label>
             <input type="text" name="funcao" required>
