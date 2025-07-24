@@ -64,14 +64,17 @@ def register():
         email = request.form['email']
         senha = generate_password_hash(request.form['senha'])
         tipo = request.form['tipo']
+
         if User.query.filter_by(email=email).first():
             flash('E-mail já cadastrado.')
             return redirect(url_for('register'))
-        user = User(nome=nome, email=email, senha=senha, tipo=tipo)
+
+        user = User(nome=nome, email=email, senha=senha, tipo=tipo, ativo=False)  # ← aqui o bloqueio
         db.session.add(user)
         db.session.commit()
-        flash('Cadastro realizado com sucesso. Faça o login.')
+        flash('Cadastro realizado com sucesso. Aguarde autorização do administrador.')
         return redirect(url_for('login'))
+
     return render_template('register.html')
 
 @app.route('/logout')
