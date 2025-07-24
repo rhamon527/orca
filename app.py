@@ -255,18 +255,16 @@ def adicionar_gasto():
 @app.route('/graficos')
 @login_required
 def graficos():
-    obras = Obra.query.all()
-    gastos_por_obra = []
+    from sqlalchemy import func  # certifica que isso está importado no topo
+    resultados = db.session.query(
+        Obra.nome,
+        func.sum(Gasto.valor)
+    ).join(Gasto).group_by(Obra.nome).all()
 
-    for obra in obras:
-        gastos = Gasto.query.filter_by(obra_id=obra.id).all()
-        total = sum([gasto.valor or 0 for gasto in gastos])  # Garante que None vira 0
-        gastos_por_obra.append((obra.nome, total))
+    obras = [resultado[0] for resultado in resultados]
+    valores = [float(resultado[1]) for resultado in resultados]
 
-    labels = [x[0] for x in gastos_por_obra]
-    valores = [x[1] for x in gastos_por_obra]
-
-    return render_template('graficos.html', obras=labels, valores=valores)
+    return render_template('graficos.html', obras=obras, valores=valores)
 
 
 @app.route('/users', methods=['GET', 'POST'])
