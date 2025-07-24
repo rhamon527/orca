@@ -255,47 +255,17 @@ def adicionar_gasto():
 @app.route('/graficos')
 @login_required
 def graficos():
-    return render_template('graficos.html')
+    obras = Obra.query.all()
+    gastos_por_obra = []
 
-{% extends "base.html" %}
-{% block title %}Gráficos de Gastos | ORCA{% endblock %}
+    for obra in obras:
+        total = sum([gasto.valor for gasto in Gasto.query.filter_by(obra_id=obra.id).all()])
+        gastos_por_obra.append((obra.nome, total))
 
-{% block content %}
-<h2> Gráfico de Gastos por Obra</h2>
+    labels = [x[0] for x in gastos_por_obra]
+    valores = [x[1] for x in gastos_por_obra]
 
-<canvas id="graficoGastos" width="400" height="200"></canvas>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const ctx = document.getElementById('graficoGastos').getContext('2d');
-  const grafico = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: {{ obras | tojson }},
-      datasets: [{
-        label: 'Total Gasto (R$)',
-        data: {{ valores | tojson }},
-        backgroundColor: '#FFD700',
-        borderColor: '#000',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: function(value) {
-              return 'R$ ' + value.toFixed(2);
-            }
-          }
-        }
-      }
-    }
-  });
-</script>
-{% endblock %}
+    return render_template('graficos.html', obras=labels, valores=valores)
 
 
 @app.route('/users', methods=['GET', 'POST'])
