@@ -75,7 +75,7 @@ def register():
         # 🔓 Ativa automaticamente apenas o seu usuário admin
         ativo = True if email == 'rhamonvieiraborges7@gmail.com' else False
 
-        user = User(nome=nome, email=email, senha=senha, tipo=tipo, active=ativo)
+        user = User(nome=nome, email=email, senha=senha, tipo=tipo, ativo=ativo)
         db.session.add(user)
         db.session.commit()
 
