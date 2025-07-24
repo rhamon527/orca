@@ -1,55 +1,129 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Painel ORCA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #fafafa; }
-        .card { background: #fff; margin: 15px; padding: 25px; width: 280px; height: 140px; text-align: center; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.09); display: inline-block; font-size: 22px;}
-        .card:hover { transform: scale(1.05); background: #fff60044; text-decoration: none; color: #080; font-weight: bold;}
-        .menu { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 30px;}
-        header { background: #000; color: #fff; padding: 20px; text-align: center; font-size: 24px;}
-    </style>
+  <meta charset="UTF-8">
+  <title>Painel ORCA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #101010;
+      color: white;
+    }
+
+    header {
+      background-color: #1c1c1c;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #FFD70044;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .user-info {
+      font-size: 15px;
+      color: #ccc;
+      text-align: right;
+    }
+
+    .user-info a {
+      color: #FFD700;
+      text-decoration: none;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 22px;
+      color: #FFD700;
+      margin-top: 30px;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 30px;
+    }
+
+    .card {
+      background: #1e1e1e;
+      padding: 25px;
+      width: 220px;
+      height: 120px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 18px;
+    }
+
+    .card a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      display: block;
+      height: 100%;
+    }
+
+    .card:hover {
+      background: #ffd7001a;
+      transform: translateY(-5px);
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        width: 90%;
+        margin: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        Bem-vindo, {{ user.nome }} ao sistema ORCA!
-    </header>
 
-    <div class="menu">
-
-        {% if user.tipo == 'editor' or user.tipo == 'rh' %}
-            <div class="card"><a href="{{ url_for('funcionarios') }}">👷‍♂️ Funcionários</a></div>
-            <div class="card"><a href="{{ url_for('painel_rh') }}">🧾 Holerites</a></div>
-        {% endif %}
-
-        {% if user.tipo == 'editor' or user.tipo == 'fiscal' %}
-            <div class="card"><a href="{{ url_for('gastos', obra_id=1) }}">💸 Gastos</a></div>
-            <div class="card"><a href="{{ url_for('graficos') }}">📈 Gráficos</a></div>
-        {% endif %}
-
-        {% if user.tipo == 'editor' or user.tipo == 'seguranca' %}
-    <div class="card"><a href="{{ url_for('painel_seguranca') }}">🦺 EPIs</a></div>
-        {% endif %}
-
-        {% if user.tipo == 'fiscal' or user.tipo == 'editor' %}
-<div class="card">
-  <a href="{{ url_for('painel_fiscal') }}">📑 Fiscal</a>
-         </div>
-        {% endif %}
-
-
-        {% if user.tipo == 'editor' %}
-            <div class="card"><a href="{{ url_for('users') }}">👤 Usuários</a></div>
-        {% endif %}
-
-        {% if user.tipo == 'editor' %}
-    <div class="card"><a href="{{ url_for('aprovar_usuarios') }}">✅ Aprovar Usuários</a></div>
-        {% endif %}
-
-        <div class="card"><a href="{{ url_for('mensagens') }}">💬 Mensagens</a></div>
-        <div class="card"><a href="{{ url_for('logout') }}">⏏️ Sair</a></div>
+  <header>
+    <img src="{{ url_for('static', filename='LOGOTIPO-ORCA_Prancheta-1-2048x1911.png') }}" alt="ORCA Logo" class="logo">
+    <div class="user-info">
+      👤 {{ user.nome }} |
+      <a href="{{ url_for('logout') }}">Sair</a>
     </div>
+  </header>
+
+  <div class="welcome">
+    Bem-vindo, {{ user.nome }} ao sistema ORCA!
+  </div>
+
+  <div class="menu">
+    {% if user.tipo == 'editor' or user.tipo == 'rh' %}
+      <div class="card"><a href="{{ url_for('funcionarios') }}">👷‍♂️ Funcionários</a></div>
+      <div class="card"><a href="{{ url_for('painel_rh') }}">🧾 Holerites</a></div>
+    {% endif %}
+
+    {% if user.tipo == 'editor' or user.tipo == 'fiscal' %}
+      <div class="card"><a href="{{ url_for('gastos', obra_id=1) }}">💸 Gastos</a></div>
+      <div class="card"><a href="{{ url_for('graficos') }}">📊 Gráficos</a></div>
+      <div class="card"><a href="{{ url_for('painel_fiscal') }}">📑 Fiscal</a></div>
+    {% endif %}
+
+    {% if user.tipo == 'editor' or user.tipo == 'seguranca' %}
+      <div class="card"><a href="{{ url_for('painel_seguranca') }}">🦺 EPIs</a></div>
+    {% endif %}
+
+    {% if user.tipo == 'editor' %}
+      <div class="card"><a href="{{ url_for('users') }}">👥 Usuários</a></div>
+      <div class="card"><a href="{{ url_for('aprovar_usuarios') }}">✅ Aprovar Usuários</a></div>
+    {% endif %}
+
+    <div class="card"><a href="{{ url_for('mensagens') }}">💬 Mensagens</a></div>
+  </div>
+
 </body>
 </html>
