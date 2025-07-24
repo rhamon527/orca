@@ -51,7 +51,7 @@ class Obra(db.Model):
 class Holerite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
-    salario_bruto = db.Column(db.Float, nullable=False)
+    salario_bruto = db.Column(db.String(100)))
     impostos = db.Column(db.Float, default=0)
     horas_50 = db.Column(db.Float, default=0)
     horas_100 = db.Column(db.Float, default=0)
