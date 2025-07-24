@@ -159,8 +159,9 @@ def holerite():
         flash('Holerite cadastrado com sucesso!')
         return redirect(url_for('holerite'))
 
+    # estas duas linhas precisam estar DENTRO da função:
     holerites = Holerite.query.all()
-return render_template('holerite.html', holerites=holerites)
+    return render_template('holerite.html', holerites=holerites)
 
 @app.route('/holerite/delete/<int:id>', methods=['POST'])
 @login_required
