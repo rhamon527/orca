@@ -13,9 +13,9 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
-# Cria as tabelas e dados iniciais
 with app.app_context():
     db.create_all()
+
     # Cria obra padrão se não existir
     if not Obra.query.first():
         nova_obra = Obra(
@@ -28,17 +28,19 @@ with app.app_context():
         )
         db.session.add(nova_obra)
         db.session.commit()
+
     # Cria usuário padrão se não existir
     if not User.query.filter_by(email='rhamonvieiraborges7@gmail.com').first():
         default_user = User(
-    nome='Rhamon Vieira Borges',
-    email='rhamonvieiraborges7@gmail.com',
-    senha=generate_password_hash('3691'),
-    tipo='editor',
-    active=True  # <- ESSENCIAL para liberar o login
-)
+            nome='Rhamon Vieira Borges',
+            email='rhamonvieiraborges7@gmail.com',
+            senha=generate_password_hash('3691'),
+            tipo='editor',
+            ativo=True  # ESSENCIAL para liberar o login
+        )
         db.session.add(default_user)
         db.session.commit()
+
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
