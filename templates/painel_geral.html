@@ -33,6 +33,12 @@
     <div class="card"><a href="{{ url_for('painel_seguranca') }}">🦺 EPIs</a></div>
         {% endif %}
 
+        {% if user.tipo == 'fiscal' or user.tipo == 'editor' %}
+<div class="card">
+  <a href="{{ url_for('painel_fiscal') }}">📑 Fiscal</a>
+         </div>
+        {% endif %}
+
 
         {% if user.tipo == 'editor' %}
             <div class="card"><a href="{{ url_for('users') }}">👤 Usuários</a></div>
