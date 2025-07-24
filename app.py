@@ -224,6 +224,33 @@ def gastos():
     gastos = Gasto.query.all()
     return render_template('gastos.html', gastos=gastos)
 
+@app.route('/adicionar_gasto', methods=['GET', 'POST'])
+@login_required
+def adicionar_gasto():
+    if request.method == 'POST':
+        tipo_nota = request.form['tipo_nota']
+        valor = float(request.form['valor'])
+        data_nota = datetime.strptime(request.form['data_nota'], '%Y-%m-%d')
+        descricao = request.form['descricao']
+        aprovador = request.form['aprovador']
+        obra_id = int(request.form['obra_id'])
+
+        novo_gasto = Gasto(
+            tipo_nota=tipo_nota,
+            valor=valor,
+            data_nota=data_nota,
+            descricao=descricao,
+            aprovador=aprovador,
+            obra_id=obra_id
+        )
+        db.session.add(novo_gasto)
+        db.session.commit()
+        flash('Gasto cadastrado com sucesso!')
+        return redirect(url_for('gastos'))
+
+    obras = Obra.query.all()
+    return render_template('adicionar_gasto.html', obras=obras)
+    
 
 @app.route('/graficos')
 @login_required
