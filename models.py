@@ -74,3 +74,16 @@ class EntregaEPI(db.Model):
     assinatura = db.Column(db.String(100))
 
     funcionario = db.relationship('Funcionario', backref='entregas_epi')
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    senha = db.Column(db.String(128), nullable=False)
+    tipo = db.Column(db.String(20), nullable=False)
+    ativo = db.Column(db.Boolean, default=False)  # Novo campo
+
+    @property
+    def is_active(self):
+        return self.ativo
+
