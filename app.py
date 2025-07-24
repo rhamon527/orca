@@ -199,11 +199,31 @@ def painel_rh():
     # aqui você deve usar o nome exato do seu HTML
     return render_template('holerite.html')
 
-@app.route('/gastos/<int:obra_id>')
+@app.route('/gastos', methods=['GET', 'POST'])
 @login_required
-def gastos(obra_id):
-    obra = Obra.query.get_or_404(obra_id)
-    return render_template('gastos.html', obra=obra)
+def gastos():
+    if request.method == 'POST':
+        tipo = request.form['tipo']
+        valor = float(request.form['valor'])
+        descricao = request.form.get('descricao')
+        obra = request.form.get('obra')
+        aprovado_por = request.form.get('aprovado_por')
+
+        novo_gasto = Gasto(
+            tipo=tipo,
+            valor=valor,
+            descricao=descricao,
+            obra=obra,
+            aprovado_por=aprovado_por
+        )
+        db.session.add(novo_gasto)
+        db.session.commit()
+        flash('Gasto registrado com sucesso!')
+        return redirect(url_for('gastos'))
+
+    gastos = Gasto.query.all()
+    return render_template('gastos.html', gastos=gastos)
+
 
 @app.route('/graficos')
 @login_required
