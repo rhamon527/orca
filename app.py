@@ -247,6 +247,29 @@ def painel_rh():
 
     return render_template('holerite.html')
 
+@app.route('/painel_fiscal', methods=['GET', 'POST'])
+@login_required
+def painel_fiscal():
+    if request.method == 'POST':
+        tipo = request.form['tipo']
+        valor = request.form['valor']
+        data = request.form['data']
+        nf = request.form['nf']
+        obra_destino = request.form['obra_destino']
+
+        nova = Locacao(
+            tipo=tipo,
+            valor=valor,
+            data=data,
+            nf=nf,
+            obra_destino=obra_destino
+        )
+        db.session.add(nova)
+        db.session.commit()
+        flash('✅ Registro fiscal salvo com sucesso!')
+
+    return render_template('painel_fiscal.html')
+
 @app.route('/painel_seguranca')
 @login_required
 def painel_seguranca():
