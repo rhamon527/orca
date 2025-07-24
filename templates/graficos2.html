@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Gráficos de Gastos | ORCA{% endblock %}
+
+{% block content %}
+<h2>📊 Gráfico de Gastos por Obra</h2>
+
+<canvas id="graficoGastos" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('graficoGastos').getContext('2d');
+  const grafico = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ obras | tojson }},
+      datasets: [{
+        label: 'Total Gasto (R$)',
+        data: {{ valores | tojson }},
+        backgroundColor: '#FFD700',
+        borderColor: '#000',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return 'R$ ' + value.toFixed(2);
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}
