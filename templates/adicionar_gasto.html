@@ -1,6 +1,9 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Adicionar Gasto{% endblock %}
+
 {% block content %}
-<h2>➕ Adicionar Gasto</h2>
+<h2>➕ Adicionar Novo Gasto</h2>
 
 <form method="POST">
   <label>Tipo de Nota:</label><br>
@@ -9,21 +12,21 @@
   <label>Valor:</label><br>
   <input type="number" name="valor" step="0.01" required><br><br>
 
-  <label>Data da Nota:</label><br>
-  <input type="date" name="data_nota" required><br><br>
+  <label>Data:</label><br>
+  <input type="date" name="data" required><br><br>
 
   <label>Descrição:</label><br>
   <textarea name="descricao" required></textarea><br><br>
 
-  <label>Aprovado por:</label><br>
-  <input type="text" name="aprovador" required><br><br>
-
   <label>Obra:</label><br>
   <select name="obra_id" required>
     {% for obra in obras %}
-    <option value="{{ obra.id }}">{{ obra.nome }}</option>
+      <option value="{{ obra.id }}">{{ obra.nome }}</option>
     {% endfor %}
   </select><br><br>
+
+  <label>Aprovado por:</label><br>
+  <input type="text" name="aprovado_por" required><br><br>
 
   <button type="submit">Salvar</button>
 </form>
