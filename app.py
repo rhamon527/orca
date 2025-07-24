@@ -220,33 +220,31 @@ def delete_holerite(id):
 @login_required
 def painel_rh():
     if request.method == 'POST':
-    nome = request.form['nome']
-    salario_bruto = float(request.form['salario_bruto'])
-    impostos = float(request.form.get('impostos', 0))
-    horas_50 = float(request.form.get('horas_50', 0))
-    horas_100 = float(request.form.get('horas_100', 0))
-    dsr = float(request.form.get('dsr', 0))
-    dsr_extra = float(request.form.get('dsr_extra', 0))
-    data = request.form.get('data')
+        nome = request.form['nome']
+        salario_bruto = float(request.form.get('salario_bruto', 0))
+        impostos = float(request.form.get('impostos', 0))
+        horas_50 = float(request.form.get('horas_50', 0))
+        horas_100 = float(request.form.get('horas_100', 0))
+        dsr = float(request.form.get('dsr', 0))
+        dsr_extra = float(request.form.get('dsr_extra', 0))
+        data = request.form.get('data')
 
-    holerite = Holerite(
-        nome=nome,
-        salario_bruto=salario_bruto,
-        impostos=impostos,
-        horas_50=horas_50,
-        horas_100=horas_100,
-        dsr=dsr,
-        dsr_extra=dsr_extra,
-        data=data
-    )
+        holerite = Holerite(
+            nome=nome,
+            salario_bruto=salario_bruto,
+            impostos=impostos,
+            horas_50=horas_50,
+            horas_100=horas_100,
+            dsr=dsr,
+            dsr_extra=dsr_extra,
+            data=data
+        )
 
-    db.session.add(holerite)
-    db.session.commit()
-    flash('Holerite cadastrado com sucesso!')
-    return redirect(url_for('painel_rh'))
+        db.session.add(holerite)
+        db.session.commit()
+        flash('Holerite cadastrado com sucesso!')
+        return redirect(url_for('painel_rh'))
 
-    
-    # aqui você deve usar o nome exato do seu HTML
     return render_template('holerite.html')
 
 @app.route('/gastos', methods=['GET', 'POST'])
