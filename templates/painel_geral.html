@@ -30,8 +30,9 @@
         {% endif %}
 
         {% if user.tipo == 'editor' or user.tipo == 'seguranca' %}
-            <div class="card"><a href="#">🦺 EPIs</a></div>
+    <div class="card"><a href="{{ url_for('painel_seguranca') }}">🦺 EPIs</a></div>
         {% endif %}
+
 
         {% if user.tipo == 'editor' %}
             <div class="card"><a href="{{ url_for('users') }}">👤 Usuários</a></div>
