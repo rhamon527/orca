@@ -88,6 +88,59 @@ def register():
     
     return render_template('register.html')
 
+@app.route('/exportar_funcionarios')
+def exportar_funcionarios():
+    from flask import send_file
+    import csv
+    import io
+
+    funcionarios = Funcionario.query.all()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['ID', 'Nome', 'CPF', 'Data de Nascimento', 'Obra ID'])  # cabeçalhos
+
+    for f in funcionarios:
+        writer.writerow([f.id, f.nome, f.cpf, f.data_nascimento, f.obra_id])
+
+    output.seek(0)
+    return send_file(
+        io.BytesIO(output.getvalue().encode()),
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name='funcionarios.csv'
+    )
+
+@app.route('/importar_funcionarios', methods=['POST'])
+def importar_funcionarios():
+    import csv
+    import io
+    from flask import request, redirect, url_for
+
+    file = request.files.get('arquivo')
+    if not file:
+        return 'Nenhum arquivo enviado', 400
+
+    stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
+    csv_input = csv.reader(stream)
+
+    next(csv_input)  # pular o cabeçalho
+
+    for row in csv_input:
+        try:
+            novo_func = Funcionario(
+                nome=row[1],
+                cpf=row[2],
+                data_nascimento=row[3],
+                obra_id=int(row[4])
+            )
+            db.session.add(novo_func)
+        except Exception as e:
+            print('Erro ao importar linha:', row, str(e))
+
+    db.session.commit()
+    return redirect(url_for('funcionarios'))
+
 @app.route('/aprovar_usuarios')
 @login_required
 def aprovar_usuarios():
