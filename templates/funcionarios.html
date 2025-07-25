@@ -1,133 +1,141 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Cadastro de Funcionários | ORCA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        body {
-            background-color: #f8f8f8;
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #000;
-            color: #FFD700;
-            padding: 20px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
-        main {
-            max-width: 700px;
-            margin: 40px auto;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            padding: 30px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-        form label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        form input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-        button {
-            margin-top: 25px;
-            background-color: #FFD700;
-            color: #000;
-            padding: 12px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background-color: #e0be00;
-        }
-        .mensagem {
-            margin-top: 20px;
-            color: green;
-            text-align: center;
-            font-weight: bold;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 14px;
-            color: #888;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Cadastro de Funcionários | ORCA{% endblock %}
+{% block content %}
 
-<header>
-    👷 Cadastro de Funcionários - ORCA
-</header>
+<style>
+  .form-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  input, button, select {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  th {
+    background: #f0f0f0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  .btn {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .btn-primary { background: #007bff; color: white; }
+  .btn-danger { background: #dc3545; color: white; }
+  .btn-export { background: #28a745; color: white; margin-top: 15px; }
+  .btn:hover { opacity: 0.9; }
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+</style>
 
-<main>
-    <h2>Preencha os dados do funcionário</h2>
+<h2>👷 Cadastro de Funcionários</h2>
 
-    <form method="POST" action="{{ url_for('funcionarios') }}">
-
-  <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
-  <form action="{{ url_for('exportar_funcionarios') }}" method="get">
-    <button style="padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      📤 Exportar PDF
-    </button>
-  </form>
-
-  <form action="{{ url_for('importar_funcionarios') }}" method="post" enctype="multipart/form-data">
-    <input type="file" name="arquivo" accept=".csv,.xlsx,.xls,.txt" required>
-    <button style="padding: 8px 15px; background-color: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      📥 Importar Dados
-    </button>
+<div class="form-section">
+  <form method="POST" action="{{ url_for('funcionarios') }}">
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+      <input type="text" id="nome" name="nome" placeholder="Nome" required style="flex:1; padding: 10px;">
+      <input type="text" id="cpf" name="cpf" placeholder="CPF" required style="flex:1; padding: 10px;">
+      <input type="date" id="data_nascimento" name="data_nascimento" required style="flex:1; padding: 10px;">
+      <input type="number" id="obra_id" name="obra_id" placeholder="ID da Obra" required style="flex:1; padding: 10px;">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">💾 Cadastrar Funcionário</button>
   </form>
 </div>
 
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
+<div class="form-section">
+  <h3>📥 Importar Funcionários (Excel)</h3>
+  <form method="POST" action="{{ url_for('importar_funcionarios') }}" enctype="multipart/form-data">
+    <input type="file" name="arquivo" accept=".xls,.xlsx" required style="padding: 6px; margin-right: 10px;">
+    <button type="submit" class="btn btn-primary">⬆️ Importar</button>
+  </form>
+</div>
 
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+<div class="form-section">
+  <h3>📋 Funcionários Cadastrados</h3>
 
-        <label for="data_nascimento">Data de Nascimento:</label>
-        <input type="date" id="data_nascimento" name="data_nascimento" required>
+  <input type="text" id="filtro" placeholder="🔍 Filtrar por nome ou CPF" onkeyup="filtrarTabela()"
+    style="margin-bottom: 15px; padding: 8px; width: 300px; border: 1px solid #ccc; border-radius: 5px;">
 
-        <label for="obra_id">Obra vinculada (ID):</label>
-        <input type="number" id="obra_id" name="obra_id" placeholder="ID da obra" required>
+  <div style="overflow-x: auto; max-height: 500px;">
+    <table id="tabelaFuncionarios">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>Data de Nascimento</th>
+          <th>ID da Obra</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for func in funcionarios %}
+        <tr>
+          <td>{{ func.nome }}</td>
+          <td>{{ func.cpf }}</td>
+          <td>{{ func.data_nascimento.strftime('%Y-%m-%d') if func.data_nascimento else '' }}</td>
+          <td>{{ func.obra_id }}</td>
+          <td>
+            <div class="action-buttons">
+              <form method="POST" action="{{ url_for('excluir_funcionario', id=func.id) }}">
+                <button type="submit" class="btn btn-danger"
+                  onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">🗑️</button>
+              </form>
+              <button type="button" class="btn btn-primary"
+                onclick="preencherFormulario('{{ func.nome }}', '{{ func.cpf }}', '{{ func.data_nascimento.strftime('%Y-%m-%d') if func.data_nascimento else '' }}', '{{ func.obra_id }}')">✏️</button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-        <button type="submit">Cadastrar Funcionário</button>
-    </form>
+  <form action="{{ url_for('exportar_funcionarios') }}" method="get">
+    <button type="submit" class="btn btn-export">📤 Exportar para Excel</button>
+  </form>
+</div>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="mensagem">
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-</main>
+<script>
+  function filtrarTabela() {
+    var input = document.getElementById("filtro").value.toLowerCase();
+    var linhas = document.querySelectorAll("#tabelaFuncionarios tbody tr");
+    linhas.forEach(function (linha) {
+      var nome = linha.cells[0].innerText.toLowerCase();
+      var cpf = linha.cells[1].innerText.toLowerCase();
+      linha.style.display = (nome.includes(input) || cpf.includes(input)) ? "" : "none";
+    });
+  }
 
-<footer>
-    Sistema ORCA - Gestão de Obras e RH
-</footer>
+  function preencherFormulario(nome, cpf, data, obra) {
+    document.getElementById("nome").value = nome;
+    document.getElementById("cpf").value = cpf;
+    document.getElementById("data_nascimento").value = data;
+    document.getElementById("obra_id").value = obra;
+  }
+</script>
 
-</body>
-</html>
+{% endblock %}
