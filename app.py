@@ -338,10 +338,15 @@ def painel_seguranca():
 
 @app.route('/registrar_epi', methods=['POST'])
 def registrar_epi():
-    nome = request.form['nome']
+    nome = request.form.get('nome')
     funcao = request.form['funcao']
     cpf = request.form['cpf']
-    data = datetime.strptime(request.form['data_requisicao'], "%Y-%m-%d").date()
+   data_str = request.form.get('data_requisicao')
+try:
+    data = datetime.strptime(data_str, "%Y-%m-%d").date() if data_str else None
+except ValueError:
+    data = None
+    
     epi = request.form['epi']
     assinatura = request.form['assinatura']  # imagem base64
 
