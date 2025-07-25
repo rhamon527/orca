@@ -426,6 +426,12 @@ def exportar_epis_pdf():
     response.headers['Content-Disposition'] = 'attachment; filename=historico_epis.pdf'
     return response
 
+@app.route('/gastos')
+@login_required
+def gastos():
+    gastos = Gasto.query.order_by(Gasto.data_nota.desc()).all()
+    return render_template('gastos.html', gastos=gastos)
+
 @app.route('/adicionar_gasto', methods=['GET', 'POST'])
 @login_required
 def adicionar_gasto():
