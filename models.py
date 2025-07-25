@@ -70,13 +70,12 @@ class Locacao(db.Model):
     obra_destino = db.Column(db.String(100))
 
 
-class EntregaEPI(db.Model):
+class RequisicaoEPI(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    nome = db.Column(db.String(100))
     funcao = db.Column(db.String(100))
+    cpf = db.Column(db.String(20))
+    data_requisicao = db.Column(db.Date)
     epi = db.Column(db.String(100))
-    data = db.Column(db.Date)
-    assinatura = db.Column(db.String(100))
-
-    funcionario = db.relationship('Funcionario', backref='entregas_epi')
+    imagem = db.Column(db.Text)  # base64 da foto
 
