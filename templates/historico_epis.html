@@ -28,19 +28,19 @@
   <tbody>
     {% for r in registros %}
     <tr>
-      <td>{{ r.nome }}</td>
-      <td>{{ r.cpf }}</td>
-      <td>{{ r.funcao }}</td>
-      <td>{{ r.epi }}</td>
-      <td>{{ r.ca }}</td>
-      <td>{{ r.data_requisicao.strftime("%d/%m/%Y") if r.data_requisicao else '' }}</td>
-      <td>
-        {% if r.imagem %}
-         <img src="{{ url_for('static', filename='assinaturas/' ~ r.imagem) }}" width="80">
-        {% else %}
-          Sem imagem
-        {% endif %}
-      </td>
+      <td>{{ registro.nome }}</td>
+<td>{{ registro.cpf }}</td>
+<td>{{ registro.funcao }}</td>
+<td>{{ registro.epi }}</td>
+<td>{{ registro.ca }}</td>
+<td>{{ registro.data_requisicao.strftime('%d/%m/%Y') }}</td>
+<td>
+  {% if registro.imagem %}
+    <img src="{{ url_for('static', filename='assinaturas/' + registro.imagem) }}" width="100">
+  {% else %}
+    Sem imagem
+  {% endif %}
+</td>
     </tr>
     {% endfor %}
   </tbody>
