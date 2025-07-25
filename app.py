@@ -378,30 +378,53 @@ def historico_epis():
     return render_template('historico_epis.html', registros=registros)
 
 
-@app.route('/gastos', methods=['GET', 'POST'])
-@login_required
-def gastos():
-    if request.method == 'POST':
-        tipo = request.form['tipo']
-        valor = float(request.form['valor'])
-        descricao = request.form.get('descricao')
-        obra = request.form.get('obra')
-        aprovado_por = request.form.get('aprovado_por')
+@app.route('/historico_epi', methods=['GET'])
+def historico_epi():
+    nome_filtro = request.args.get('nome', '')
+    cpf_filtro = request.args.get('cpf', '')
 
-        novo_gasto = Gasto(
-            tipo=tipo,
-            valor=valor,
-            descricao=descricao,
-            obra=obra,
-            aprovado_por=aprovado_por
-        )
-        db.session.add(novo_gasto)
-        db.session.commit()
-        flash('Gasto registrado com sucesso!')
-        return redirect(url_for('gastos'))
+    query = RequisicaoEPI.query
 
-    gastos = Gasto.query.all()
-    return render_template('gastos.html', gastos=gastos)
+    if nome_filtro:
+        query = query.filter(RequisicaoEPI.nome.ilike(f'%{nome_filtro}%'))
+
+    if cpf_filtro:
+        query = query.filter(RequisicaoEPI.cpf.ilike(f'%{cpf_filtro}%'))
+
+    registros = query.order_by(RequisicaoEPI.data_requisicao.desc()).all()
+
+    return render_template('historico_epi.html', registros=registros, nome_filtro=nome_filtro, cpf_filtro=cpf_filtro)
+
+@app.route('/exportar_epis_pdf')
+def exportar_epis_pdf():
+    registros = RequisicaoEPI.query.order_by(RequisicaoEPI.data_requisicao.desc()).all()
+
+    buffer = io.BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+
+    y = height - 40
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(200, y, "Histórico de EPIs")
+    y -= 30
+
+    pdf.setFont("Helvetica", 9)
+    for r in registros:
+        if y < 60:
+            pdf.showPage()
+            y = height - 40
+
+        linha = f"Nome: {r.nome} | CPF: {r.cpf} | EPI: {r.epi} | CA: {r.ca} | Data: {r.data_requisicao.strftime('%d/%m/%Y') if r.data_requisicao else ''}"
+        pdf.drawString(30, y, linha)
+        y -= 18
+
+    pdf.save()
+    buffer.seek(0)
+
+    response = make_response(buffer.read())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=historico_epis.pdf'
+    return response
 
 @app.route('/adicionar_gasto', methods=['GET', 'POST'])
 @login_required
