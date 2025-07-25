@@ -72,11 +72,10 @@ class Locacao(db.Model):
 
 class RequisicaoEPI(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100))
+    nome = db.Column(db.String(100), nullable=False)
     funcao = db.Column(db.String(100))
     cpf = db.Column(db.String(20))
-    epi = db.Column(db.String(100))
-    ca = db.Column(db.String(50))
+    ca = db.Column(db.String(20))
     data_requisicao = db.Column(db.Date)
-    imagem = db.Column(db.String(200))  # <- salva o caminho da imagem
-
+    epi = db.Column(db.String(100))
+    imagem = db.Column(db.String(255))  # <- Aqui salva o nome da imagem
