@@ -74,8 +74,9 @@ class RequisicaoEPI(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
     funcao = db.Column(db.String(100))
-    cpf = db.Column(db.String(20))
+    cpf = db.Column(db.String(50))
+    ca = db.Column(db.String(100))
     data_requisicao = db.Column(db.Date)
     epi = db.Column(db.String(100))
-    imagem = db.Column(db.Text)  # base64 da foto
+    imagem = db.Column(db.Text)
 
