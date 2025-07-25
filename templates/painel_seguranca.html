@@ -45,59 +45,60 @@
   <div class="container">
     <h2>🦺 Requisição de EPIs</h2>
 
-   <form action="{{ url_for('registrar_epi') }}" method="POST" enctype="multipart/form-data">
-      
-      <label>Nome do Colaborador:</label>
-      <input type="text" name="nome" required>
+  <form action="{{ url_for('registrar_epi') }}" method="POST" enctype="multipart/form-data">
 
-      <label>CPF:</label>
-      <input type="text" name="cpf" required>
+  <label>Nome do Colaborador:</label>
+  <input type="text" name="nome" required>
 
-      <label>Função:</label>
-      <input type="text" name="funcao" required>
+  <label>CPF:</label>
+  <input type="text" name="cpf" required>
 
-      <label>EPI Requisitado:</label>
-      <input type="text" name="epi" required>
+  <label>Função:</label>
+  <input type="text" name="funcao" required>
 
-      <label>Número do CA:</label>
-      <input type="text" name="ca" required>
+  <label>EPI Requisitado:</label>
+  <input type="text" name="epi" required>
 
-      <label>Data da Retirada:</label>
-      <input type="date" name="data" required>
+  <label>Número do CA:</label>
+  <input type="text" name="ca" required>
 
-      <label>Captura Facial:</label>
-      <video id="video" width="100%" height="200" autoplay></video>
+  <label>Data da Retirada:</label>
+  <input type="date" name="data_requisicao" required>
 
-      <button type="button" onclick="capturar()" style="background-color: #555;">📸 Capturar Rosto</button>
+  <label>Captura Facial:</label>
+  <video id="video" width="100%" height="200" autoplay></video>
 
-      <label>Imagem Capturada:</label>
-<div style="display: flex; justify-content: center;">
-  <canvas id="canvas" width="300" height="200" style="border:1px solid #ccc; border-radius: 8px;"></canvas>
-</div>
+  <button type="button" onclick="capturar()" style="background-color: #555;">📷 Capturar Rosto</button>
 
-      <input type="hidden" id="assinatura" name="assinatura">
-      <button type="submit">💾 Registrar Entrega de EPI</button>
-    </form>
+  <label>Imagem Capturada:</label>
+  <div style="display: flex; justify-content: center;">
+    <canvas id="canvas" width="300" height="200" style="border:1px solid #ccc; border-radius: 8px;"></canvas>
   </div>
 
-  <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const fotoInput = document.getElementById('assinatura');
+  <!-- Campo oculto para guardar a imagem capturada -->
+  <input type="hidden" id="assinatura" name="assinatura">
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(err => {
-        alert("Erro ao acessar a câmera: " + err);
-      });
+  <button type="submit">📄 Registrar Entrega de EPI</button>
+</form>
 
-    function capturar() {
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      fotoInput.value = canvas.toDataURL();  // base64 da imagem
-    }
-  </script>
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const fotoInput = document.getElementById('assinatura');
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(err => {
+      alert("Erro ao acessar a câmera: " + err);
+    });
+
+  function capturar() {
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    fotoInput.value = canvas.toDataURL(); // Salva a imagem como base64
+  }
+</script>
 </body>
 </html>
