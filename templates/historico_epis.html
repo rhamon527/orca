@@ -36,7 +36,7 @@
       <td>{{ r.data_requisicao.strftime("%d/%m/%Y") if r.data_requisicao else '' }}</td>
       <td>
         {% if r.imagem %}
-          <img src="{{ r.imagem }}" width="80">
+         <img src="{{ url_for('static', filename='assinaturas/' ~ r.imagem) }}" width="80">
         {% else %}
           Sem imagem
         {% endif %}
