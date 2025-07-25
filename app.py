@@ -113,31 +113,32 @@ def exportar_funcionarios():
 
 @app.route('/importar_funcionarios', methods=['POST'])
 def importar_funcionarios():
-    import csv
-    import io
+    import pandas as pd
     from flask import request, redirect, url_for
 
     file = request.files.get('arquivo')
     if not file:
         return 'Nenhum arquivo enviado', 400
 
-    stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
-    csv_input = csv.reader(stream)
+    try:
+        # Lê o arquivo Excel
+        df = pd.read_excel(file)
 
-    next(csv_input)  # pular o cabeçalho
-
-    for row in csv_input:
-        try:
+        for index, row in df.iterrows():
             novo_func = Funcionario(
-                nome=row[1],
-                cpf=row[2],
-                data_nascimento=row[3],
-                obra_id=int(row[4])
+                nome=row['nome'],
+                cpf=row['cpf'],
+                data_nascimento=row['data_nascimento'],
+                obra_id=int(row['obra_id'])
             )
             db.session.add(novo_func)
-        except Exception as e:
-            print('Erro ao importar linha:', row, str(e))
 
+        db.session.commit()
+        return redirect(url_for('funcionarios'))
+
+    except Exception as e:
+        return f'Erro ao importar: {str(e)}', 500
+        
     db.session.commit()
     return redirect(url_for('funcionarios'))
 
