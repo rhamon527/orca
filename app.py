@@ -356,31 +356,28 @@ def registrar_epi():
 
         # Se houver imagem base64:
         imagem_path = None
-        if assinatura_base64 and "base64," in assinatura_base64:
-            # Criar nome do arquivo único (ex: cpf_timestamp.png)
-            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-            filename = f"{cpf}_{timestamp}.png"
-            caminho = os.path.join('static', 'assinaturas', filename)
+       if assinatura_base64 and "base64," in assinatura_base64:
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = f"{cpf}_{timestamp}.png"
+    caminho = os.path.join('static', 'assinaturas', filename)
 
-            # Separar o conteúdo da imagem
-            imagem_base64 = assinatura_base64.split(',')[1]
+    imagem_base64 = assinatura_base64.split(',')[1]
+    with open(caminho, 'wb') as f:
+        f.write(base64.b64decode(imagem_base64))
 
-            # Salvar como arquivo .png
-            with open(caminho, 'wb') as f:
-                f.write(base64.b64decode(imagem_base64))
+    imagem_path = filename  # <--- só o nome da imagem aqui!
+else:
+    imagem_path = None
 
-            imagem_path = '/' + caminho  # caminho para uso no HTML
-
-        # Criar registro
-        nova_requisicao = RequisicaoEPI(
-            nome=nome,
-            funcao=funcao,
-            cpf=cpf,
-            ca=ca,
-            data_requisicao=data,
-            epi=epi,
-            imagem=imagem_path
-        )
+nova_requisicao = RequisicaoEPI(
+    nome=nome,
+    funcao=funcao,
+    cpf=cpf,
+    ca=ca,
+    data_requisicao=data,
+    epi=epi,
+    imagem=imagem_path  # <- aqui vai só o nome
+)
 
         db.session.add(nova_requisicao)
         db.session.commit()
