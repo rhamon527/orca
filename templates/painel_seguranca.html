@@ -1,65 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Painel Segurança</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            padding: 30px;
-        }
-        .container {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-        button {
-            padding: 12px;
-            width: 100%;
-            background-color: #2a8d4a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Painel Segurança | Requisição de EPI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 30px;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    input, select, button, canvas, video {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    label {
+      font-weight: bold;
+    }
+    button {
+      background-color: #2a8d4a;
+      color: white;
+      border: none;
+      font-size: 16px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    canvas, video {
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
-    <<div style="margin-top: 20px;">
-  <a href="{{ url_for('painel_seguranca') }}" style="text-decoration: none;">
-    <button style="padding: 15px; width: 100%; background: #FFA500; border: none; color: #000; font-size: 16px; border-radius: 8px;">
-      🦺 Acessar Painel Segurança / EPIs
-    </button>
-  </a>
+  <div class="container">
+    <h2>🦺 Requisição de EPIs</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+      <label>Nome do Colaborador:</label>
+      <input type="text" name="nome" required>
+
+      <label>CPF:</label>
+      <input type="text" name="cpf" required>
+
+      <label>Função:</label>
+      <input type="text" name="funcao" required>
+
+      <label>EPI Requisitado:</label>
+      <input type="text" name="epi" required>
+
+      <label>Número do CA:</label>
+      <input type="text" name="ca" required>
+
+      <label>Data da Retirada:</label>
+      <input type="date" name="data_requisicao" required>
+
+      <label>Captura Facial:</label>
+      <video id="video" width="100%" height="200" autoplay></video>
+
+      <button type="button" onclick="capturar()" style="background-color: #555;">📸 Capturar Rosto</button>
+
+      <label>Imagem Capturada:</label>
+<div style="display: flex; justify-content: center;">
+  <canvas id="canvas" width="300" height="200" style="border:1px solid #ccc; border-radius: 8px;"></canvas>
 </div>
 
 
-            <label>Função:</label>
-            <input type="text" name="funcao" required>
+      <button type="submit">💾 Registrar Entrega de EPI</button>
+    </form>
+  </div>
 
-            <label>EPI Registrado:</label>
-            <input type="text" name="epi" required>
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const fotoInput = document.getElementById('foto_rosto');
 
-            <label>Data da Retirada:</label>
-            <input type="date" name="data" required>
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        alert("Erro ao acessar a câmera: " + err);
+      });
 
-            <label>Assinatura:</label>
-            <input type="text" name="assinatura" required>
-
-            <button type="submit">Registrar Entrega de EPI</button>
-        </form>
-    </div>
+    function capturar() {
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      fotoInput.value = canvas.toDataURL();  // base64 da imagem
+    }
+  </script>
 </body>
 </html>
