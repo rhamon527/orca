@@ -75,10 +75,53 @@
 
     .login-box .register-link a:hover {
       text-decoration: underline;
+
+      <style>
+  .tela-abertura {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .porta-esq, .porta-dir {
+    width: 50%;
+    height: 100%;
+    background-color: #1a1a1a;
+    transition: transform 1.2s ease-in-out;
+    z-index: 9999;
+  }
+
+  .porta-esq {
+    transform: translateX(0%);
+  }
+
+  .porta-dir {
+    transform: translateX(0%);
+  }
+
+  .abrir .porta-esq {
+    transform: translateX(-100%);
+  }
+
+  .abrir .porta-dir {
+    transform: translateX(100%);
+  }
+</style>
+
     }
   </style>
 </head>
 <body>
+  <div class="tela-abertura" id="efeitoAbertura">
+    <div class="porta-esq"></div>
+    <div class="porta-dir"></div>
+  </div>
 
   <div class="login-box">
     <h2>🔐 Login - ORCA</h2>
@@ -103,6 +146,20 @@
       Não tem uma conta? <a href="{{ url_for('register') }}">Cadastrar</a>
     </div>
   </div>
+<script>
+  window.addEventListener("load", function () {
+    const portaEsq = document.querySelector(".porta-esq");
+    const portaDir = document.querySelector(".porta-dir");
+    const tela = document.getElementById("telaAbertura");
 
+    portaEsq.classList.add("abrir", "porta-esq");
+    portaDir.classList.add("abrir", "porta-dir");
+
+    setTimeout(() => {
+      tela.style.display = "none";
+    }, 1200);
+  });
+</script>
+  
 </body>
 </html>
