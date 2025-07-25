@@ -374,8 +374,8 @@ def registrar_epi():
         
 @app.route('/historico_epis')
 def historico_epis():
-    registros = RegistroEPI.query.all()
-    return render_template('historico_epis.html', registros=registros)
+    registros = RequisicaoEPI.query.all()  # ✅ certo
+    return render_template('historico_epi.html', registros=registros)
 
 
 @app.route('/historico_epi', methods=['GET'])
