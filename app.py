@@ -338,30 +338,39 @@ def painel_seguranca():
 
 @app.route('/registrar_epi', methods=['POST'])
 def registrar_epi():
-    nome = request.form.get('nome')
-    funcao = request.form['funcao']
-    cpf = request.form['cpf']
-   data_str = request.form.get('data_requisicao')
-try:
-    data = datetime.strptime(data_str, "%Y-%m-%d").date() if data_str else None
-except ValueError:
-    data = None
-    
-    epi = request.form['epi']
-    assinatura = request.form['assinatura']  # imagem base64
+    try:
+        nome = request.form.get('nome')
+        funcao = request.form.get('funcao')
+        cpf = request.form.get('cpf')
+        ca = request.form.get('ca')  # adicionando o campo CA
+        data_str = request.form.get('data_requisicao')
 
-    nova_requisicao = RequisicaoEPI(
-        nome=nome,
-        funcao=funcao,
-        cpf=cpf,
-        data_requisicao=data,
-        epi=epi,
-        imagem=assinatura
-    )
-    db.session.add(nova_requisicao)
-    db.session.commit()
-    return redirect(url_for('painel_seguranca'))
+        try:
+            data = datetime.strptime(data_str, "%Y-%m-%d").date() if data_str else None
+        except ValueError:
+            data = None
 
+        epi = request.form.get('epi')
+        assinatura = request.form.get('assinatura')  # imagem base64
+
+        nova_requisicao = RequisicaoEPI(
+            nome=nome,
+            funcao=funcao,
+            cpf=cpf,
+            ca=ca,
+            data_requisicao=data,
+            epi=epi,
+            imagem=assinatura
+        )
+
+        db.session.add(nova_requisicao)
+        db.session.commit()
+        return redirect(url_for('painel_seguranca'))
+
+    except Exception as e:
+        print(f"Erro ao registrar EPI: {e}")
+        return "Erro interno ao registrar EPI", 500
+        
 @app.route('/historico_epis')
 def historico_epis():
     registros = RegistroEPI.query.all()
