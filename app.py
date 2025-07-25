@@ -341,7 +341,7 @@ def registrar_epi():
     nome = request.form['nome']
     funcao = request.form['funcao']
     cpf = request.form['cpf']
-    data = datetime.strptime(request.form['data'], "%Y-%m-%d").date()
+    data = datetime.strptime(request.form['data_requisicao'], "%Y-%m-%d").date()
     epi = request.form['epi']
     assinatura = request.form['assinatura']  # imagem base64
 
