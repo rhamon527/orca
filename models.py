@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -21,7 +22,7 @@ class Funcionario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     cpf = db.Column(db.String(20), nullable=False)
-    data_nascimento = db.Column(db.String(20), nullable=False)
+    data_nascimento = datetime.strptime(request.form['data_nascimento'], '%Y-%m-%d').date()
     obra_id = db.Column(db.Integer, nullable=False)
 
 class Gasto(db.Model):
