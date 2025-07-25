@@ -346,10 +346,10 @@ def registrar_epi():
         ca = request.form.get('ca')
         data_str = request.form.get('data_requisicao')
 
-        try:
-            data = datetime.strptime(data_str, "%Y-%m-%d").date() if data_str else None
-        except ValueError:
-            data = None
+      try:
+    data = datetime.strptime(data_str, "%Y-%m-%d").date()
+except (ValueError, TypeError):
+    data = None
 
         epi = request.form.get('epi')
         assinatura_base64 = request.form.get('assinatura')  # base64
