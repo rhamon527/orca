@@ -78,4 +78,4 @@ class RequisicaoEPI(db.Model):
     ca = db.Column(db.String(20))
     data_requisicao = db.Column(db.Date)
     epi = db.Column(db.String(100))
-    imagem = db.Column(db.String(255))  # <- Aqui salva o nome da imagem
+   imagem = db.Column(db.String(200))  # Nome do arquivo da imagem (ex: 12345678900_20250725.png)
