@@ -4,39 +4,69 @@
     <meta charset="UTF-8">
     <title>Histórico de EPIs</title>
     <style>
-        body { font-family: Arial; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        img { width: 80px; border-radius: 8px; }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 1000px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #2a8d4a;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h2>📜 Histórico de EPIs Retirados</h2>
-    <table>
-        <tr>
-            <th>Nome</th>
-            <th>Função</th>
-            <th>CPF</th>
-            <th>Data</th>
-            <th>EPI</th>
-            <th>Assinatura</th>
-        </tr>
-        {% for item in dados %}
-        <tr>
-            <td>{{ item.nome }}</td>
-            <td>{{ item.funcao }}</td>
-            <td>{{ item.cpf }}</td>
-            <td>{{ item.data_requisicao.strftime('%d/%m/%Y') }}</td>
-            <td>{{ item.epi }}</td>
-            <td>
-                {% if item.imagem %}
-                    <img src="{{ item.imagem }}" alt="Assinatura">
-                {% else %}
-                    Sem imagem
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <h2>📋 Histórico de EPIs Requisitados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Função</th>
+                    <th>CPF</th>
+                    <th>Data</th>
+                    <th>EPI</th>
+                    <th>CA</th>
+                    <th>Imagem da Assinatura</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in registros %}
+                <tr>
+                    <td>{{ r.nome }}</td>
+                    <td>{{ r.funcao }}</td>
+                    <td>{{ r.cpf }}</td>
+                    <td>{{ r.data }}</td>
+                    <td>{{ r.epi }}</td>
+                    <td>{{ r.ca }}</td>
+                    <td>
+                        {% if r.assinatura %}
+                        <img src="{{ url_for('static', filename='assinaturas/' ~ r.assinatura) }}" width="100">
+                        {% else %}
+                        Não disponível
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
