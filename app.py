@@ -343,7 +343,7 @@ def registrar_epi():
         nome = request.form.get('nome')
         funcao = request.form.get('funcao')
         cpf = request.form.get('cpf')
-        ca = request.form.get('ca')  # adicionando o campo CA
+        ca = request.form.get('ca')
         data_str = request.form.get('data_requisicao')
 
         try:
@@ -352,8 +352,26 @@ def registrar_epi():
             data = None
 
         epi = request.form.get('epi')
-        assinatura = request.form.get('assinatura')  # imagem base64
+        assinatura_base64 = request.form.get('assinatura')  # base64
 
+        # Se houver imagem base64:
+        imagem_path = None
+        if assinatura_base64 and "base64," in assinatura_base64:
+            # Criar nome do arquivo único (ex: cpf_timestamp.png)
+            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+            filename = f"{cpf}_{timestamp}.png"
+            caminho = os.path.join('static', 'assinaturas', filename)
+
+            # Separar o conteúdo da imagem
+            imagem_base64 = assinatura_base64.split(',')[1]
+
+            # Salvar como arquivo .png
+            with open(caminho, 'wb') as f:
+                f.write(base64.b64decode(imagem_base64))
+
+            imagem_path = '/' + caminho  # caminho para uso no HTML
+
+        # Criar registro
         nova_requisicao = RequisicaoEPI(
             nome=nome,
             funcao=funcao,
@@ -361,15 +379,16 @@ def registrar_epi():
             ca=ca,
             data_requisicao=data,
             epi=epi,
-            imagem=assinatura
+            imagem=imagem_path
         )
 
         db.session.add(nova_requisicao)
         db.session.commit()
+        flash('EPI registrado com sucesso!', 'success')
         return redirect(url_for('painel_seguranca'))
 
     except Exception as e:
-        print(f"Erro ao registrar EPI: {e}")
+        print(e)
         return "Erro interno ao registrar EPI", 500
         
 @app.route('/historico_epis')
