@@ -357,17 +357,20 @@ def registrar_epi():
     
         im# Se houver imagem base64:
 imagem_path = None
-if assinatura_base64 and "base64," in assinatura_base64:
-    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-    filename = f"{cpf}_{timestamp}.png"
-    caminho = os.path.join('static', 'assinaturas', filename)
+try:
+    if assinatura_base64 and "base64," in assinatura_base64:
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        filename = f"{cpf}_{timestamp}.png"
+        caminho = os.path.join('static', 'assinaturas', filename)
 
-    imagem_base64 = assinatura_base64.split(',')[1]
-    with open(caminho, 'wb') as f:
-        f.write(base64.b64decode(imagem_base64))
+        imagem_base64 = assinatura_base64.split(',')[1]
 
-    imagem_path = filename  # aqui vai só o nome
-else:
+        with open(caminho, 'wb') as f:
+            f.write(base64.b64decode(imagem_base64))
+
+        imagem_path = filename  # só o nome do arquivo
+except Exception as e:
+    print("Erro ao salvar imagem base64:", e)
     imagem_path = None
 
 
