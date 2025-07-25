@@ -122,7 +122,7 @@ def importar_funcionarios():
 
     try:
         # Lê o arquivo Excel
-        df = pd.read_excel(file)
+        df = pd.read_excel(file, engine='openpyxl')
 
         for index, row in df.iterrows():
             novo_func = Funcionario(
