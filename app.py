@@ -336,6 +336,33 @@ def painel_seguranca():
     funcionarios = Funcionario.query.order_by(Funcionario.nome).all()
     return render_template('painel_seguranca.html', funcionarios=funcionarios)
 
+@app.route('/registrar_epi', methods=['POST'])
+def registrar_epi():
+    nome = request.form['nome']
+    funcao = request.form['funcao']
+    cpf = request.form['cpf']
+    data = datetime.strptime(request.form['data'], "%Y-%m-%d").date()
+    epi = request.form['epi']
+    assinatura = request.form['assinatura']  # imagem base64
+
+    nova_requisicao = RequisicaoEPI(
+        nome=nome,
+        funcao=funcao,
+        cpf=cpf,
+        data_requisicao=data,
+        epi=epi,
+        imagem=assinatura
+    )
+    db.session.add(nova_requisicao)
+    db.session.commit()
+    return redirect(url_for('painel_seguranca'))
+
+@app.route('/historico_epis')
+def historico_epis():
+    dados = RequisicaoEPI.query.order_by(RequisicaoEPI.data_requisicao.desc()).all()
+    return render_template('historico_epis.html', dados=dados)
+
+
 @app.route('/gastos', methods=['GET', 'POST'])
 @login_required
 def gastos():
