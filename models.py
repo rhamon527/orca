@@ -74,9 +74,9 @@ class RequisicaoEPI(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
     funcao = db.Column(db.String(100))
-    cpf = db.Column(db.String(50))
-    ca = db.Column(db.String(100))
-    data_requisicao = db.Column(db.Date)
+    cpf = db.Column(db.String(20))
     epi = db.Column(db.String(100))
-    imagem = db.Column(db.Text)
+    ca = db.Column(db.String(50))
+    data_requisicao = db.Column(db.Date)
+    imagem = db.Column(db.String(200))  # <- salva o caminho da imagem
 
