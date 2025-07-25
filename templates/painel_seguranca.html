@@ -75,7 +75,7 @@
   <canvas id="canvas" width="300" height="200" style="border:1px solid #ccc; border-radius: 8px;"></canvas>
 </div>
 
-
+      <input type="hidden" id="assinatura" name="assinatura">
       <button type="submit">💾 Registrar Entrega de EPI</button>
     </form>
   </div>
@@ -83,7 +83,7 @@
   <script>
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
-    const fotoInput = document.getElementById('foto_rosto');
+    const fotoInput = document.getElementById('assinatura');
 
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
