@@ -260,6 +260,13 @@ def holerite():
         flash('Holerite cadastrado com sucesso!')
         return redirect(url_for('holerite'))
 
+@app.route('/excluir_funcionario/<int:id>', methods=['POST'])
+def excluir_funcionario(id):
+    func = Funcionario.query.get_or_404(id)
+    db.session.delete(func)
+    db.session.commit()
+    return redirect(url_for('funcionarios'))
+
 
 @app.route('/holerite/delete/<int:id>', methods=['POST'])
 @login_required
