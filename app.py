@@ -354,9 +354,10 @@ def registrar_epi():
         epi = request.form.get('epi')
         assinatura_base64 = request.form.get('assinatura')  # base64
 
-        # Se houver imagem base64:
-        imagem_path = None
-       if assinatura_base64 and "base64," in assinatura_base64:
+    
+        im# Se houver imagem base64:
+imagem_path = None
+if assinatura_base64 and "base64," in assinatura_base64:
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
     filename = f"{cpf}_{timestamp}.png"
     caminho = os.path.join('static', 'assinaturas', filename)
@@ -365,9 +366,10 @@ def registrar_epi():
     with open(caminho, 'wb') as f:
         f.write(base64.b64decode(imagem_base64))
 
-    imagem_path = filename  # <--- só o nome da imagem aqui!
+    imagem_path = filename  # aqui vai só o nome
 else:
     imagem_path = None
+
 
 nova_requisicao = RequisicaoEPI(
     nome=nome,
