@@ -121,14 +121,16 @@ def importar_funcionarios():
         return 'Nenhum arquivo enviado', 400
 
     try:
-        # Lê o arquivo Excel
         df = pd.read_excel(file, engine='openpyxl')
 
         for index, row in df.iterrows():
+            data_nasc_str = row['data_nascimento']
+            data_nascimento = datetime.strptime(data_nasc_str, '%d/%m/%Y').date()
+
             novo_func = Funcionario(
                 nome=row['nome'],
                 cpf=row['cpf'],
-                data_nascimento=row['data_nascimento'],
+                data_nascimento=data_nascimento,
                 obra_id=int(row['obra_id'])
             )
             db.session.add(novo_func)
@@ -138,9 +140,6 @@ def importar_funcionarios():
 
     except Exception as e:
         return f'Erro ao importar: {str(e)}', 500
-        
-    db.session.commit()
-    return redirect(url_for('funcionarios'))
 
 @app.route('/aprovar_usuarios')
 @login_required
