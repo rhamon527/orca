@@ -1,48 +1,80 @@
-{% extends "base.html" %}
-{% block title %}Histórico de EPIs{% endblock %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de EPIs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-{% block content %}
-<h2>📜 Histórico de EPIs Registrados</h2>
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
 
-<form method="GET" style="margin-bottom: 20px;">
-  <input type="text" name="nome" placeholder="Filtrar por Nome" value="{{ nome_filtro }}">
-  <input type="text" name="cpf" placeholder="Filtrar por CPF" value="{{ cpf_filtro }}">
-  <button type="submit">🔍 Filtrar</button>
-  <a href="{{ url_for('exportar_epis_pdf') }}" target="_blank" style="margin-left: 20px;">
-    📥 Exportar PDF
-  </a>
-</form>
+        img {
+            max-height: 100px;
+        }
 
-<table border="1" cellpadding="10" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>CPF</th>
-      <th>Função</th>
-      <th>EPI</th>
-      <th>CA</th>
-      <th>Data da Retirada</th>
-      <th>Assinatura</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for r in registros %}
-    <tr>
-      <td>{{ registro.nome }}</td>
-<td>{{ registro.cpf }}</td>
-<td>{{ registro.funcao }}</td>
-<td>{{ registro.epi }}</td>
-<td>{{ registro.ca }}</td>
-<td>{{ registro.data_requisicao.strftime('%d/%m/%Y') }}</td>
-<td>
-  {% if registro.imagem %}
-    <img src="{{ url_for('static', filename='assinaturas/' + registro.imagem) }}" width="100">
-  {% else %}
-    Sem imagem
-  {% endif %}
-</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock %}
+        .filtros {
+            margin-bottom: 20px;
+        }
+
+        .filtros input {
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        .filtros button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>📄 Histórico de EPIs Registrados</h2>
+
+    <form method="GET" class="filtros">
+        <input type="text" name="nome" placeholder="Filtrar por Nome" value="{{ nome_filtro }}">
+        <input type="text" name="cpf" placeholder="Filtrar por CPF" value="{{ cpf_filtro }}">
+        <button type="submit">🔍 Filtrar</button>
+        <a href="{{ url_for('historico_epi') }}">Limpar Filtros</a>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Função</th>
+                <th>EPI</th>
+                <th>CA</th>
+                <th>Data da Retirada</th>
+                <th>Assinatura</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro.nome }}</td>
+                <td>{{ registro.cpf }}</td>
+                <td>{{ registro.funcao }}</td>
+                <td>{{ registro.epi }}</td>
+                <td>{{ registro.ca }}</td>
+                <td>{{ registro.data_requisicao.strftime('%d/%m/%Y') }}</td>
+                <td>
+                    {% if registro.imagem %}
+                        <img src="{{ url_for('static', filename='assinaturas/' + registro.imagem) }}" alt="Assinatura">
+                    {% else %}
+                        Sem imagem
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
