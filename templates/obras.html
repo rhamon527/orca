@@ -7,13 +7,15 @@
 
 <div class="form-container">
   <form method="POST">
-    <input type="text" name="nome" placeholder="Nome da Obra" required>
-    <input type="text" name="cidade" placeholder="Cidade" required>
-    <input type="text" name="estado" placeholder="Estado (UF)" required>
-    <input type="text" name="responsavel" placeholder="Responsável pela Obra" required>
-    <input type="text" name="usina" placeholder="Nome da Usina (se aplicável)">
-    <button type="submit">Salvar Obra</button>
-  </form>
+  <input type="text" name="nome" placeholder="Nome da Obra" required>
+  <input type="text" name="local" placeholder="Local da Obra" required> <!-- <- Aqui -->
+  <input type="text" name="cidade" placeholder="Cidade" required>
+  <input type="text" name="estado" placeholder="Estado (UF)" required>
+  <input type="text" name="responsavel" placeholder="Responsável pela Obra" required>
+  <input type="text" name="usina" placeholder="Nome da Usina (se aplicável)">
+  <button type="submit">Salvar Obra</button>
+</form>
+  
 </div>
 
 {% if obras %}
