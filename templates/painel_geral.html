@@ -122,6 +122,12 @@
       <div class="card"><a href="{{ url_for('painel_seguranca') }}">🦺 EPIs</a></div>
     {% endif %}
 
+    <a href="{{ url_for('historico_epis') }}">
+    <button style="padding: 12px 20px; margin: 10px 0; background-color: #007BFF; color: white; border: none; border-radius: 6px; font-weight: bold;">
+        📂 Ver Histórico de EPIs
+    </button>
+</a>
+
     {% if user.tipo == 'editor' %}
       <div class="card"><a href="{{ url_for('users') }}">👥 Usuários</a></div>
       <div class="card"><a href="{{ url_for('aprovar_usuarios') }}">✅ Aprovar Usuários</a></div>
