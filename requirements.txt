@@ -8,6 +8,6 @@ pandas
 xlsxwriter
 reportlab
 python-dotenv
-
+openpyxl
 
 
