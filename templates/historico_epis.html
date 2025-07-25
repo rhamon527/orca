@@ -1,72 +1,48 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Histórico de EPIs</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 1000px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #2a8d4a;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>📋 Histórico de EPIs Requisitados</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Função</th>
-                    <th>CPF</th>
-                    <th>Data</th>
-                    <th>EPI</th>
-                    <th>CA</th>
-                    <th>Imagem da Assinatura</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for r in registros %}
-                <tr>
-                    <td>{{ r.nome }}</td>
-                    <td>{{ r.funcao }}</td>
-                    <td>{{ r.cpf }}</td>
-                    <td>{{ r.data }}</td>
-                    <td>{{ r.epi }}</td>
-                    <td>{{ r.ca }}</td>
-                    <td>
-                        {% if r.assinatura %}
-                        <img src="{{ url_for('static', filename='assinaturas/' ~ r.assinatura) }}" width="100">
-                        {% else %}
-                        Não disponível
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Histórico de EPIs{% endblock %}
+
+{% block content %}
+<h2>📜 Histórico de EPIs Registrados</h2>
+
+<form method="GET" style="margin-bottom: 20px;">
+  <input type="text" name="nome" placeholder="Filtrar por Nome" value="{{ nome_filtro }}">
+  <input type="text" name="cpf" placeholder="Filtrar por CPF" value="{{ cpf_filtro }}">
+  <button type="submit">🔍 Filtrar</button>
+  <a href="{{ url_for('exportar_epis_pdf') }}" target="_blank" style="margin-left: 20px;">
+    📥 Exportar PDF
+  </a>
+</form>
+
+<table border="1" cellpadding="10" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>CPF</th>
+      <th>Função</th>
+      <th>EPI</th>
+      <th>CA</th>
+      <th>Data da Retirada</th>
+      <th>Assinatura</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in registros %}
+    <tr>
+      <td>{{ r.nome }}</td>
+      <td>{{ r.cpf }}</td>
+      <td>{{ r.funcao }}</td>
+      <td>{{ r.epi }}</td>
+      <td>{{ r.ca }}</td>
+      <td>{{ r.data_requisicao.strftime("%d/%m/%Y") if r.data_requisicao else '' }}</td>
+      <td>
+        {% if r.imagem %}
+          <img src="{{ r.imagem }}" width="80">
+        {% else %}
+          Sem imagem
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
