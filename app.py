@@ -5,6 +5,7 @@ from models import db, User, Obra, Gasto, Funcionario
 from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from models import RequisicaoEPI
 import pandas as pd
 import io
 import re
