@@ -359,8 +359,8 @@ def registrar_epi():
 
 @app.route('/historico_epis')
 def historico_epis():
-    dados = RequisicaoEPI.query.order_by(RequisicaoEPI.data_requisicao.desc()).all()
-    return render_template('historico_epis.html', dados=dados)
+    registros = RegistroEPI.query.all()
+    return render_template('historico_epis.html', registros=registros)
 
 
 @app.route('/gastos', methods=['GET', 'POST'])
