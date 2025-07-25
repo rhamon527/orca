@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de EPIs</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        img { width: 80px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h2>📜 Histórico de EPIs Retirados</h2>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Função</th>
+            <th>CPF</th>
+            <th>Data</th>
+            <th>EPI</th>
+            <th>Assinatura</th>
+        </tr>
+        {% for item in dados %}
+        <tr>
+            <td>{{ item.nome }}</td>
+            <td>{{ item.funcao }}</td>
+            <td>{{ item.cpf }}</td>
+            <td>{{ item.data_requisicao.strftime('%d/%m/%Y') }}</td>
+            <td>{{ item.epi }}</td>
+            <td>
+                {% if item.imagem %}
+                    <img src="{{ item.imagem }}" alt="Assinatura">
+                {% else %}
+                    Sem imagem
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
