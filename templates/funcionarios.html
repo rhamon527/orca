@@ -105,7 +105,7 @@
                   onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">🗑️</button>
               </form>
               <button type="button" class="btn btn-primary"
-                onclick="preencherFormulario('{{ func.nome }}', '{{ func.cpf }}', '{{ func.data_nascimento.strftime('%Y-%m-%d') if func.data_nascimento else '' }}', '{{ func.obra_id }}')">✏️</button>
+                onclick="preencherFormulario('{{ func.nome }}', '{{ func.cpf }}', '{{ func.data_nascimento }}', '{{ func.obra_id }}')"
             </div>
           </td>
         </tr>
