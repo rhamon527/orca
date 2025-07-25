@@ -215,7 +215,7 @@ def funcionarios():
     if request.method == 'POST':
         nome = request.form['nome']
         cpf = request.form['cpf']
-        data_nascimento = request.form['data_nascimento']
+        data_nascimento = datetime.strptime(request.form['data_nascimento'], '%Y-%m-%d').date()
         obra_id = request.form['obra_id']
 
         if not (nome and cpf and data_nascimento and obra_id):
